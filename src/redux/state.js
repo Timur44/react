@@ -1,5 +1,4 @@
-import { renderEntireThree } from "../render";
-
+let renderEntireThree=()=>{}
 let state={
     dialogsPage:{
         dialogs:[{name:"Timur",id:1},{name:"Nikita",id:1},{name:"Lexa",id:1},{name:"Kirill",id:1},{name:"Matwey",id:1}],
@@ -8,18 +7,27 @@ let state={
     navPage:{
         items:['Profile','Messages','News','Music','Settings']
     },
-    postMessage:[{id:0,message:"Hi"}]
+    postMessage:[{id:0,message:"Hi"}],
+    newPostText:'it-kamasutra'
     
     
     
 }
-export let addPosts=(postMess)=>{
+export let addPosts=()=>{
     let newPost={
         id:1,
-        message:postMess
+        message:state.newPostText
     };
     state.postMessage.push(newPost);
-    renderEntireThree(state);
+    updateNewPostText('');
+    renderEntireThree();
+}
+export let updateNewPostText=(newText)=>{
+    state.newPostText=newText;
+    renderEntireThree();
+}
+export const subscribe=(observe)=>{
+    renderEntireThree=observe;
 }
     
    
