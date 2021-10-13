@@ -1,18 +1,24 @@
 import React from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header';
-import Nav from './components/Nav';
-import Profile from './components/Profile';
+import Dialogs from './components/Dialogs/Dialogs';
+import Header from './components/Header/Header';
+import Nav from './components/Nav/Nav';
+import Profile from './components/Profile/Profile';
 
 
-const App=()=>{
+const App=(props)=>{
   return (
-    <div className="wrapper">
+    <BrowserRouter>
+      <div className="wrapper">
       <Header/>
-      <Nav/>
-      <Profile/>
+      <Nav items={props.state.navPage.items}/>
+      <Route exact path='/dialogs' render={()=><Dialogs dialogs={props.state.dialogsPage.dialogs} messages={props.state.dialogsPage.messages}/>}/>
+      <Route exact path='/profile' render={()=><Profile posts={props.state.postMessage} new={props.newMessage}/>}/>
     </div>
+    </BrowserRouter>
   );
+    
 }
 export default App;
 
