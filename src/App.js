@@ -20,11 +20,10 @@ const App=(props)=>{
           />
           }/>
         <Route exact path='/profile' render={()=>
-          <Profile 
+          <Profile
+            standartValue={props.store.newPostText} 
             posts={props.store.postMessage} 
-            new={props.newMessage} 
-            newPostText={props.store.newPostText}
-            updateNewPostText={props.updateNewPostText}
+            dispatch={props.dispatch}
           />
         }/>
       </div>

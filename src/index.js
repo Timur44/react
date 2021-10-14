@@ -12,7 +12,7 @@ import App from './App';
 export let renderEntireThree=()=>{
     ReactDOM.render(
       <React.StrictMode>
-        <App store={store.getState()} newMessage={store.addPosts.bind(store)} updateNewPostText={store.updateNewPostText.bind(store)}/>
+        <App store={store.getState()} dispatch={store.dispatch.bind(store)}/>
       </React.StrictMode>,
       document.getElementById('root')
     );

@@ -8,7 +8,7 @@ const Profile=(props)=>{
             <img className={profile.main_img} src="https://wallpapersprinted.com/download/2/mountain_road_scenery-wallpaper-3840x2400.jpg"></img>
           </div>
           <div>ava</div>
-          <MyPost addPosts={props.posts} newMessage={props.new} newPostText={props.newPostText} updateNewPostText={props.updateNewPostText}/>
+          <MyPost standartValue={props.standartValue} addPosts={props.posts} dispatch={props.dispatch}/>
       </div>
     )
 }

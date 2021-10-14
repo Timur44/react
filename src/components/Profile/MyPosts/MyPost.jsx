@@ -5,20 +5,20 @@ const MyPost=(props)=>{
     let newPostElem=React.createRef()
     let addPost=()=>{
         let text=newPostElem.current.value;
-        props.newMessage(text);
+        props.dispatch({type:"ADD-POST"});
     }
     let post=props.addPosts.map(item=>{
        return <Post message={item.message}/>
     });
     let onChangePostText=()=>{
         let text=newPostElem.current.value;
-        props.updateNewPostText(text);
+        props.dispatch({type:"UPDATE-NEW-POST-TEXT",newText:text});
     }
     return(
       
         <div>
             <div  className={mypost.item}>My post</div>
-            <textarea ref={newPostElem} className={mypost.block} value={props.newPostText} onChange={onChangePostText}></textarea>
+            <textarea ref={newPostElem} className={mypost.block} value={props.standartValue} onChange={onChangePostText}></textarea>
             <button onClick={addPost}>Create post</button>
             <div>New Post</div>
             <div>{post}</div>

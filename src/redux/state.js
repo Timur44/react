@@ -13,22 +13,31 @@ let store={
     getState(){
         return this._state;
     },
-    addPosts(){
+    subscribe(observe){
+        this.renderEntireThree=observe;
+    },
+    _updateNewPostText(newText){
+        this._state.newPostText=newText;
+        this.renderEntireThree();
+    },
+    _addPost(){
         let newPost={
             id:1,
             message:this._state.newPostText
         };
+        debugger;
         this._state.postMessage.push(newPost);
-        this.updateNewPostText('');
-        this.renderEntireThree();
-    },
-    updateNewPostText(newText){
-        this._state.newPostText=newText;
+        this._updateNewPostText('');
         this.renderEntireThree();
     },
     renderEntireThree(){},
-    subscribe(observe){
-        this.renderEntireThree=observe;
+    dispatch(action){
+       
+        if(action.type==='ADD-POST'){
+           this._addPost();
+        }else if(action.type==='UPDATE-NEW-POST-TEXT'){
+            this._updateNewPostText(action.newText);
+        }
     }
 
     
