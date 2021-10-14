@@ -1,34 +1,48 @@
-let renderEntireThree=()=>{}
-let state={
-    dialogsPage:{
-        dialogs:[{name:"Timur",id:1},{name:"Nikita",id:1},{name:"Lexa",id:1},{name:"Kirill",id:1},{name:"Matwey",id:1}],
-        messages:[{name:"Hi",id:1},{name:"Hello",id:1},{name:"Privet",id:1},{name:"Arigato",id:1},{name:"Dibil",id:1}]
+let store={
+    _state:{
+        dialogsPage:{
+            dialogs:[{name:"Timur",id:1},{name:"Nikita",id:1},{name:"Lexa",id:1},{name:"Kirill",id:1},{name:"Matwey",id:1}],
+            messages:[{name:"Hi",id:1},{name:"Hello",id:1},{name:"Privet",id:1},{name:"Arigato",id:1},{name:"Dibil",id:1}]
+        },
+        navPage:{
+            items:['Profile','Messages','News','Music','Settings']
+        },
+        postMessage:[{id:0,message:"Hi"}],
+        newPostText:'it-kamasutra'
     },
-    navPage:{
-        items:['Profile','Messages','News','Music','Settings']
+    getState(){
+        return this._state;
     },
-    postMessage:[{id:0,message:"Hi"}],
-    newPostText:'it-kamasutra'
+    addPosts(){
+        let newPost={
+            id:1,
+            message:this._state.newPostText
+        };
+        this._state.postMessage.push(newPost);
+        this.updateNewPostText('');
+        this.renderEntireThree();
+    },
+    updateNewPostText(newText){
+        this._state.newPostText=newText;
+        this.renderEntireThree();
+    },
+    renderEntireThree(){},
+    subscribe(observe){
+        this.renderEntireThree=observe;
+    }
+
     
-    
-    
 }
-export let addPosts=()=>{
-    let newPost={
-        id:1,
-        message:state.newPostText
-    };
-    state.postMessage.push(newPost);
-    updateNewPostText('');
-    renderEntireThree();
-}
-export let updateNewPostText=(newText)=>{
-    state.newPostText=newText;
-    renderEntireThree();
-}
-export const subscribe=(observe)=>{
-    renderEntireThree=observe;
-}
+
+
+
+
+
+
+
+ 
+
     
    
-export default state;
+export default store;
+window.store=store;
