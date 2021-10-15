@@ -15,8 +15,8 @@ const App=(props)=>{
         <Nav items={props.store.navPage.items}/>
         <Route exact path='/dialogs' render={()=>
           <Dialogs 
-            dialogs={props.store.dialogsPage.dialogs} 
-            messages={props.store.dialogsPage.messages}
+            dispatch={props.dispatch}
+            dialogsPage={props.store}
           />
           }/>
         <Route exact path='/profile' render={()=>
