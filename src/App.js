@@ -21,8 +21,8 @@ const App=(props)=>{
           }/>
         <Route exact path='/profile' render={()=>
           <Profile
-            standartValue={props.store.newPostText} 
-            posts={props.store.postMessage} 
+            standartValue={props.store.profilePage.newPostText} 
+            posts={props.store.profilePage.postMessage} 
             dispatch={props.dispatch}
           />
         }/>

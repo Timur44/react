@@ -1,7 +1,6 @@
-const ADD_POST="ADD-POST";
-const UPDATE_NEW_POST_TEXT="UPDATE-NEW-POST-TEXT";
-const UPDATE_NEW_MESSAGE_BODY="UPDATE-NEW-MESSAGE-BODY";
-const SEND_NEW_MESSAGE="SEND-NEW-MESSAGE";
+import dialogsReducer from "./dialogs-reducer";
+import profileReducer from "./profile-reducer";
+
 let store={
     _state:{
         dialogsPage:{
@@ -12,8 +11,11 @@ let store={
         navPage:{
             items:['Profile','Messages','News','Music','Settings']
         },
-        postMessage:[{id:0,message:"Hi"}],
-        newPostText:'it-kamasutra'
+        profilePage:{
+            postMessage:[{id:0,message:"Hi"}],
+            newPostText:'it-kamasutra'
+        }
+        
     },
     getState(){
         return this._state;
@@ -21,61 +23,18 @@ let store={
     subscribe(observer){
         this.renderEntireThree=observer;
     },
-    _updateNewPostText(newText){
-        this._state.newPostText=newText;
-        this.renderEntireThree();
-    },
-    _addPost(){
-        let newPost={
-            id:1,
-            message:this._state.newPostText
-        };
-        this._state.postMessage.push(newPost);
-        this._updateNewPostText('');
-        this.renderEntireThree();
-    },
     renderEntireThree(){},
     dispatch(action){
-       
-        if(action.type===ADD_POST){
-           this._addPost();
-        }else if(action.type===UPDATE_NEW_POST_TEXT){
-            this._updateNewPostText(action.newText);
-        }else if(action.type===UPDATE_NEW_MESSAGE_BODY){
-            this._state.dialogsPage.newMessageBody=action.body;
-            debugger;
-            this.renderEntireThree()
-        }else if(action.type===SEND_NEW_MESSAGE){
-            let body=this._state.dialogsPage.newMessageBody;
-            this._state.dialogsPage.newMessageBody='';
-            this._state.dialogsPage.messages.push({name:body,id:1});
-            this.renderEntireThree()
-        }
+        this._state.profilePage=profileReducer(this._state.profilePage,action);
+        this._state.dialogsPage=dialogsReducer(this._state.dialogsPage,action);
+        this.renderEntireThree();
     }
 
     
 }
 
-export const addPostActionCreator=()=>{
-    return {
-        type:ADD_POST
-    }
-}
-export const updateNewPostTextActionCreator=(text)=>{
-    return {
-        type:UPDATE_NEW_POST_TEXT,newText:text
-    }
-}
-export const sendNewMessageActionCreator=()=>{
-    return {
-        type:SEND_NEW_MESSAGE
-    }
-}
-export const updateNewMessageBodyActionCreator=(body)=>{
-    return {
-        type:UPDATE_NEW_MESSAGE_BODY,body:body
-    }
-}
+
+
 
 
 
