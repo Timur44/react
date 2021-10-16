@@ -1,7 +1,7 @@
 import dialogsReducer from "./dialogs-reducer";
 import profileReducer from "./profile-reducer";
 
-let store={
+let navItems={
     _state:{
         dialogsPage:{
             dialogs:[{name:"Timur",id:1},{name:"Nikita",id:1},{name:"Lexa",id:1},{name:"Kirill",id:1},{name:"Matwey",id:1}],
@@ -36,7 +36,7 @@ let store={
 
 
 
-
+export default navItems;
 
 
 
@@ -44,7 +44,3 @@ let store={
 
  
 
-    
-   
-export default store;
-window.store=store;

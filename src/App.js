@@ -12,7 +12,7 @@ const App=(props)=>{
     <BrowserRouter>
       <div className="wrapper">
         <Header/>
-        <Nav items={props.store.navPage.items}/>
+        <Nav items={props.navItems.navPage.items}/>
         <Route exact path='/dialogs' render={()=>
           <Dialogs 
             dispatch={props.dispatch}
@@ -21,8 +21,8 @@ const App=(props)=>{
           }/>
         <Route exact path='/profile' render={()=>
           <Profile
-            standartValue={props.store.profilePage.newPostText} 
-            posts={props.store.profilePage.postMessage} 
+            standartValue={props.store.profileReducer.newPostText} 
+            posts={props.store.profileReducer.postMessage} 
             dispatch={props.dispatch}
           />
         }/>

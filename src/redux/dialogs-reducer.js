@@ -1,7 +1,11 @@
 const UPDATE_NEW_MESSAGE_BODY="UPDATE-NEW-MESSAGE-BODY";
 const SEND_NEW_MESSAGE="SEND-NEW-MESSAGE";
-
-const dialogsReducer=(state,action)=>{
+let initialState={
+    dialogs:[{name:"Timur",id:1},{name:"Nikita",id:1},{name:"Lexa",id:1},{name:"Kirill",id:1},{name:"Matwey",id:1}],
+    messages:[{name:"Hi",id:1},{name:"Hello",id:1},{name:"Privet",id:1},{name:"Arigato",id:1}],
+    newMessageBody:"wadawd"
+};
+const dialogsReducer=(state=initialState,action)=>{
     
     switch(action.type){
         case UPDATE_NEW_MESSAGE_BODY:
