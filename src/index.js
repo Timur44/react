@@ -13,16 +13,15 @@ import App from './App';
 export let renderEntireThree=(state)=>{
     ReactDOM.render(
       <React.StrictMode>
-        <App store={state} dispatch={store.dispatch.bind(store)} navItems={navItems.getState()}/>
+        <App store={state} navItems={navItems.getState()}/>
       </React.StrictMode>,
       document.getElementById('root')
     );
 };
 
 
-renderEntireThree(store.getState())
+renderEntireThree(store)
 store.subscribe(()=>{
-  let state=store.getState();
-  renderEntireThree(state);
+  renderEntireThree(store);
 })
 reportWebVitals();

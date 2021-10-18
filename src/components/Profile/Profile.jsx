@@ -1,5 +1,5 @@
 import React from 'react';
-import MyPost from './MyPosts/MyPost';
+import MyPostContainer from './MyPosts/MyPostContainer';
 import profile from './Profile.module.css'
 const Profile=(props)=>{
     return(
@@ -8,7 +8,7 @@ const Profile=(props)=>{
             <img className={profile.main_img} src="https://wallpapersprinted.com/download/2/mountain_road_scenery-wallpaper-3840x2400.jpg"></img>
           </div>
           <div>ava</div>
-          <MyPost standartValue={props.standartValue} addPosts={props.posts} dispatch={props.dispatch}/>
+          <MyPostContainer store={props.store}/>
       </div>
     )
 }

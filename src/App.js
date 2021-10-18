@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import Dialogs from './components/Dialogs/Dialogs';
+import DialogsContainer from './components/Dialogs/DialogsContainer';
 import Header from './components/Header/Header';
 import Nav from './components/Nav/Nav';
 import Profile from './components/Profile/Profile';
@@ -14,16 +15,13 @@ const App=(props)=>{
         <Header/>
         <Nav items={props.navItems.navPage.items}/>
         <Route exact path='/dialogs' render={()=>
-          <Dialogs 
-            dispatch={props.dispatch}
-            dialogsPage={props.store}
+          <DialogsContainer 
+            store={props.store} 
           />
           }/>
         <Route exact path='/profile' render={()=>
           <Profile
-            standartValue={props.store.profileReducer.newPostText} 
-            posts={props.store.profileReducer.postMessage} 
-            dispatch={props.dispatch}
+            store={props.store} 
           />
         }/>
       </div>
