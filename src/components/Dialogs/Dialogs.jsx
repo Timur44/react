@@ -20,9 +20,9 @@ const Message=(props)=>{
 
 
 const Dialogs=(props)=>{
-    let dialogsElem=props.dialogs.map(item=><DialogsItem name={item.name} id={item.id}/>);
-    let messageElem=props.messages.map(item=><Message name={item.name} id={item.id}/>);
-    let newMessageBody=props.newMessageBody;
+    let dialogsElem=props.dialogsPage.dialogs.map(item=><DialogsItem name={item.name} id={item.id}/>);
+    let messageElem=props.dialogsPage.messages.map(item=><Message name={item.name} id={item.id}/>);
+    let newMessageBody=props.dialogsPage.newMessageBody;
 
 
     let onSendMessageClick=()=>{

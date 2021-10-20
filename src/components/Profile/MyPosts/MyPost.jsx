@@ -9,14 +9,14 @@ const MyPost=(props)=>{
     
     let onChangePostText=()=>{
         let text=newPostElem.current.value;
-        props.updateNewPostTextActionCreator(text);
+        props.updateNewPostText(text);
     }
 
-    let addPost=()=>{
-        props.addPostActionCreator();
+    let addPostText=()=>{
+        props.addPost();
     }
 
-    let post=props.posts.map(item=>{
+    let post=props.profilePage.postMessage.map(item=>{
        return <Post message={item.message}/>
     });
 
@@ -26,8 +26,8 @@ const MyPost=(props)=>{
       
         <div>
             <div  className={mypost.item}>My post</div>
-            <textarea ref={newPostElem} className={mypost.block} value={props.standartValue} onChange={onChangePostText}></textarea>
-            <button onClick={addPost}>Create post</button>
+            <textarea ref={newPostElem} className={mypost.block} value={props.profilePage.newPostText} onChange={onChangePostText}></textarea>
+            <button onClick={addPostText}>Create post</button>
             <div>New Post</div>
             <div>{post}</div>
         </div>

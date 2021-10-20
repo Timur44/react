@@ -13,7 +13,7 @@ const App=(props)=>{
     <BrowserRouter>
       <div className="wrapper">
         <Header/>
-        <Nav items={props.navItems.navPage.items}/>
+        <Nav/>
         <Route exact path='/dialogs' render={()=>
           <DialogsContainer 
             store={props.store} 
