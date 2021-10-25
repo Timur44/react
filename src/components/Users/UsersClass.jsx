@@ -4,15 +4,36 @@ import u from './Users.module.css'
 class UserClass extends React.Component{
     constructor(props){
         super(props);
-        axios.get('https://social-network.samuraijs.com/api/1.0/users').then(responce=>{
-            this.props.setUsers(responce.data.items)
+        
+    }
+
+    componentDidMount(){
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count${this.props.pageSize}`).then(responce=>{
+            debugger
+            this.props.setUsers(responce.data.items);
+            this.props.setTotalUsersCount(responce.data.totalCount);
         })
     }
 
-    
-
     render() {
+        let pagesCount=Math.ceil(this.props.totalUsersCount/this.props.pageSize)
+        let pages=[];
+        for (let i = 1; i <=pagesCount; i++) {
+            pages.push(i);
+            
+        }
+
         return <div>
+            <div className={u.choice}>
+                {pages.map(page=>{
+                    return <span className={this.props.currentPage===page && u.pages}onClick={()=>{
+                        this.props.setCurrentPage(page);
+                        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count${this.props.pageSize}`).then(responce=>{
+                        this.props.setUsers(responce.data.items)
+        })
+                    }}>{page}</span>
+                })}
+            </div>
             {this.props.users.map(users=><div className={u.flex} key={users.id}>
                 <span >
                     <div>
