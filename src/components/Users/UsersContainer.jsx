@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { followAC, setUsersAC, unfollowAC, currentPageAC ,setTotalUsersCountAC, change_isFething} from '../../redux/users-reducer';
+import { follow, setUsers, unfollow, setCurrentPage ,setTotalUsersCount, changeLoader} from '../../redux/users-reducer';
 import axios from 'axios';
 import Users from './Users';
-import preloader from '../../images/1480.gif'
-import u from './Users.module.css'
 import Preloader from '../Preloader/Preloader';
 class UserAPIComponent extends React.Component{
     constructor(props){
@@ -55,29 +53,15 @@ let mapStatetoProps=(state)=>{
     }
 }
 
-let mapDispatchToProps=(dispatch)=>{
-    return {
-        follow:(userId)=>{
-            dispatch(followAC(userId))
-        },
-        unfollow:(userId)=>{
-            dispatch(unfollowAC(userId))
-        },
-        setUsers:(users)=>{
-            dispatch(setUsersAC(users))
-        },
-        setCurrentPage:(currentPage)=>{
-            dispatch(currentPageAC(currentPage))
-        },
-        setTotalUsersCount:(totalCount)=>{
-            dispatch(setTotalUsersCountAC(totalCount))
-        },
-        changeLoader:(isFetching)=>{
-            dispatch(change_isFething(isFetching))
-        }
-    }
-}
 
-let UsersContainer=connect(mapStatetoProps,mapDispatchToProps)(UserAPIComponent)
+
+let UsersContainer=connect(mapStatetoProps,{
+    follow,
+    unfollow,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    changeLoader
+})(UserAPIComponent)
 
 export default UsersContainer

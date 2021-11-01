@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import u from './Users.module.css'
 let Users=(props)=>{
     let pagesCount=Math.ceil(props.totalUsersCount/props.pageSize)
@@ -18,7 +19,10 @@ let Users=(props)=>{
             {props.users.map(users=><div className={u.flex} key={users.id}>
                 <span >
                     <div>
-                        <img src={users.photoUrl!=null ? users.photoUrl : "http://avotarov.ru/picture/avatar-100/kartinki/924.jpg" } alt="" />
+                        <NavLink to={'/profile/'+ users.id}>
+                            <img src={users.photoUrl!=null ? users.photoUrl : "http://avotarov.ru/picture/avatar-100/kartinki/924.jpg" } alt="" />
+                        </NavLink>
+                       
                     </div>
                     <div>
                         {users.followed ? <button onClick={()=>{props.follow(users.id)}}>Unfollow</button> : <button onClick={()=>{props.unfollow(users.id)}}>Follow</button>}
