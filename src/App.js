@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import Header from './components/Header/Header';
+import HeaderContainer from './components/Header/HeaderContainer';
 import Nav from './components/Nav/Nav';
 import Profile from './components/Profile/Profile';
 import ProfileContainer from './components/Profile/ProfileContainer';
@@ -14,7 +15,7 @@ const App=(props)=>{
   return (
     <BrowserRouter>
       <div className="wrapper">
-        <Header/>
+        <HeaderContainer/>
         <Nav/>
         <Route exact path='/dialogs' render={()=>
           <DialogsContainer 
