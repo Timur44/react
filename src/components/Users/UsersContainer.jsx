@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { follow, setUsers, unfollow, setCurrentPage ,setTotalUsersCount, changeLoader} from '../../redux/users-reducer';
-import axios from 'axios';
 import Users from './Users';
 import Preloader from '../Preloader/Preloader';
+import { changePage, getUsers, usersAPI } from '../../api/api';
 class UserAPIComponent extends React.Component{
     constructor(props){
         super(props);
@@ -12,23 +12,19 @@ class UserAPIComponent extends React.Component{
 
     componentDidMount(){
         this.props.changeLoader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count${this.props.pageSize}`,
-        {withCredentials:true}
-        ).then(responce=>{
+        usersAPI.getUsers(this.props.currentPage,this.props.pageSize).then(data=>{
         this.props.changeLoader(false);   
-        this.props.setUsers(responce.data.items);
-        this.props.setTotalUsersCount(responce.data.totalCount);
+        this.props.setUsers(data.items);
+        this.props.setTotalUsersCount(data.totalCount);
+        debugger;
         })
     }
     onPageChanged=pageNumber=>{
         this.props.changeLoader(true);
         this.props.setCurrentPage(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count${this.props.pageSize}`,
-        {withCredentials:true}
-        
-        ).then(responce=>{
+        usersAPI.changePage(pageNumber,this.props.pageSize).then(data=>{
         debugger;
-        this.props.setUsers(responce.data.items)
+        this.props.setUsers(data.items)
         this.props.changeLoader(false);
     })
     }

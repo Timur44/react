@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { followUser, unfollowUser, usersAPI } from '../../api/api';
 import u from './Users.module.css'
 let Users=(props)=>{
     let pagesCount=Math.ceil(props.totalUsersCount/props.pageSize)
@@ -31,13 +32,7 @@ let Users=(props)=>{
                         ? <button onClick={
                             
                             ()=>{
-                                debugger;
-                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${users.id}`,{
-                                    withCredentials:true,
-                                    headers:{
-                                        "API-KEY":"99c4ad40-9f28-463b-9b7f-7ae01e967559"
-                                    }
-                                }).then(responce=>{
+                               usersAPI.unfollowUser(users.id).then(responce=>{
                                     
                                     if(responce.data.resultCode===0){//подписка произошла
                                         props.unfollow(users.id)
@@ -47,12 +42,7 @@ let Users=(props)=>{
                         }>Unfollow</button> 
                         : <button onClick={
                             ()=>{
-                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${users.id}`,{},{
-                                    withCredentials:true,
-                                    headers:{
-                                        "API-KEY":"99c4ad40-9f28-463b-9b7f-7ae01e967559"
-                                    }
-                                }).then(responce=>{
+                                usersAPI.followUser(users.id).then(responce=>{
                                     if(responce.data.resultCode===0){//подписка произошла
                                         props.follow(users.id)
                                     }
