@@ -12,16 +12,22 @@ class UserAPIComponent extends React.Component{
 
     componentDidMount(){
         this.props.changeLoader(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count${this.props.pageSize}`).then(responce=>{
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count${this.props.pageSize}`,
+        {withCredentials:true}
+        ).then(responce=>{
         this.props.changeLoader(false);   
         this.props.setUsers(responce.data.items);
-            this.props.setTotalUsersCount(responce.data.totalCount);
+        this.props.setTotalUsersCount(responce.data.totalCount);
         })
     }
     onPageChanged=pageNumber=>{
         this.props.changeLoader(true);
         this.props.setCurrentPage(pageNumber);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count${this.props.pageSize}`).then(responce=>{
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count${this.props.pageSize}`,
+        {withCredentials:true}
+        
+        ).then(responce=>{
+        debugger;
         this.props.setUsers(responce.data.items)
         this.props.changeLoader(false);
     })
@@ -32,7 +38,6 @@ class UserAPIComponent extends React.Component{
         {this.props.isFetching ? <Preloader></Preloader>: null}
         <Users 
             totalUsersCount={this.props.totalUsersCount} 
-            pageSize={this.props.pageSize}
             pageSize={this.props.pageSize}
             onPageChanged={this.onPageChanged}
             currentPage={this.props.currentPage}

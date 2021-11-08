@@ -1,4 +1,5 @@
 
+import axios from 'axios';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import u from './Users.module.css'
@@ -16,6 +17,7 @@ let Users=(props)=>{
                     return <span className={props.currentPage===page && u.pages}onClick={()=>{props.onPageChanged(page)}}>{page}</span>
                 })}
             </div>
+            
             {props.users.map(users=><div className={u.flex} key={users.id}>
                 <span >
                     <div>
@@ -25,7 +27,38 @@ let Users=(props)=>{
                        
                     </div>
                     <div>
-                        {users.followed ? <button onClick={()=>{props.follow(users.id)}}>Unfollow</button> : <button onClick={()=>{props.unfollow(users.id)}}>Follow</button>}
+                        {users.followed 
+                        ? <button onClick={
+                            
+                            ()=>{
+                                debugger;
+                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${users.id}`,{
+                                    withCredentials:true,
+                                    headers:{
+                                        "API-KEY":"99c4ad40-9f28-463b-9b7f-7ae01e967559"
+                                    }
+                                }).then(responce=>{
+                                    
+                                    if(responce.data.resultCode===0){//подписка произошла
+                                        props.unfollow(users.id)
+                                    }
+                                })
+                            }
+                        }>Unfollow</button> 
+                        : <button onClick={
+                            ()=>{
+                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${users.id}`,{},{
+                                    withCredentials:true,
+                                    headers:{
+                                        "API-KEY":"99c4ad40-9f28-463b-9b7f-7ae01e967559"
+                                    }
+                                }).then(responce=>{
+                                    if(responce.data.resultCode===0){//подписка произошла
+                                        props.follow(users.id)
+                                    }
+                                })
+                            }
+                        }>Follow</button>}
                         
                     </div>
                 </span>
