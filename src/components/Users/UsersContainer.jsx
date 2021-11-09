@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { follow, setUsers, unfollow, setCurrentPage ,setTotalUsersCount, changeLoader} from '../../redux/users-reducer';
+import { follow, setUsers, unfollow, setCurrentPage ,setTotalUsersCount, changeLoader,disableBtn} from '../../redux/users-reducer';
 import Users from './Users';
 import Preloader from '../Preloader/Preloader';
 import { changePage, getUsers, usersAPI } from '../../api/api';
@@ -23,7 +23,6 @@ class UserAPIComponent extends React.Component{
         this.props.changeLoader(true);
         this.props.setCurrentPage(pageNumber);
         usersAPI.changePage(pageNumber,this.props.pageSize).then(data=>{
-        debugger;
         this.props.setUsers(data.items)
         this.props.changeLoader(false);
     })
@@ -40,6 +39,8 @@ class UserAPIComponent extends React.Component{
             users={this.props.users}
             follow={this.props.follow}
             unfollow={this.props.unfollow}
+            disable={this.props.disable}
+            disableBtn={this.props.disableBtn}
         ></Users></>
     }
 }
@@ -50,7 +51,8 @@ let mapStatetoProps=(state)=>{
         pageSize:state.usersReducer.pageSize,
         totalUsersCount:state.usersReducer.totalUsersCount,
         currentPage:state.usersReducer.currentPage,
-        isFetching:state.usersReducer.isFetching
+        isFetching:state.usersReducer.isFetching,
+        disable:state.usersReducer.disableBtn
     }
 }
 
@@ -62,7 +64,8 @@ let UsersContainer=connect(mapStatetoProps,{
     setUsers,
     setCurrentPage,
     setTotalUsersCount,
-    changeLoader
+    changeLoader,
+    disableBtn
 })(UserAPIComponent)
 
 export default UsersContainer

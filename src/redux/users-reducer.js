@@ -4,12 +4,14 @@ const SET_USERS="SET_USERS"
 const SET_CURRENT_PAGE="SET_CURRENT_PAGE"
 const SET_TOTAL_USERS_COUNT="SET_TOTAL_USERS_COUNT"
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
+const DISABLE_BTN="DISABLE_BTN"
 let initialState={
    users:[],
    pageSize:5,
    totalUsersCount:0,
    currentPage:1,
-   isFetching:true
+   isFetching:true,
+   disableBtn:[]
 
 };
 const usersReducer=(state=initialState,action)=>{
@@ -56,6 +58,16 @@ const usersReducer=(state=initialState,action)=>{
                 ...state,
                 isFetching:action.isFetching
             };
+        case DISABLE_BTN:
+        
+        return{
+            ...state,
+            disableBtn: action.disable 
+            ? [...state.disableBtn,action.id]
+            : state.disableBtn.filter(id=>id!=action.id)
+            
+        };
+        
         default:
             return state;
     }
@@ -94,5 +106,10 @@ export const setTotalUsersCount=(totalCount)=>{
 export const changeLoader=(isFetching)=>{
     return {
         type:TOGGLE_IS_FETCHING,isFetching
+    }
+}
+export const disableBtn=(disable,id)=>{
+    return {
+        type:DISABLE_BTN,disable,id
     }
 }

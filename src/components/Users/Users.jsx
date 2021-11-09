@@ -29,23 +29,29 @@ let Users=(props)=>{
                     </div>
                     <div>
                         {users.followed 
-                        ? <button onClick={
+                        ? <button disabled={props.disable.some(id=>id===users.id)} onClick={
                             
                             ()=>{
+                               props.disableBtn(true,users.id);
                                usersAPI.unfollowUser(users.id).then(responce=>{
                                     
                                     if(responce.data.resultCode===0){//подписка произошла
                                         props.unfollow(users.id)
+
                                     }
+                                    props.disableBtn(false,users.id);
                                 })
                             }
                         }>Unfollow</button> 
-                        : <button onClick={
+                        : <button disabled={props.disable.some(id=>id===users.id)} onClick={
                             ()=>{
+                                props.disableBtn(true,users.id);
                                 usersAPI.followUser(users.id).then(responce=>{
                                     if(responce.data.resultCode===0){//подписка произошла
                                         props.follow(users.id)
+                                        
                                     }
+                                    props.disableBtn(false,users.id);
                                 })
                             }
                         }>Follow</button>}
