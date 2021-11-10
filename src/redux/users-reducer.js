@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const FOLLOW_AC="FOLLOW_AC";
 const UNFOLLOW_AC="UNFOLLOW_AC";
 const SET_USERS="SET_USERS"
@@ -111,5 +113,46 @@ export const changeLoader=(isFetching)=>{
 export const disableBtn=(disable,id)=>{
     return {
         type:DISABLE_BTN,disable,id
+    }
+}
+
+
+
+export const getUserThunkCreator=(currentPage,pageSize)=>{
+    return (dispatch)=>{
+        dispatch(changeLoader(true));
+        usersAPI.getUsers(currentPage,pageSize).then(data=>{
+            dispatch(changeLoader(false));   
+            dispatch(setUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount));
+        })
+    }
+}
+
+export const unfollowThunkCreator=(id)=>{
+    return (dispatch)=>{
+        dispatch(disableBtn(true,id));
+        usersAPI.unfollowUser(id).then(responce=>{
+            
+            if(responce.data.resultCode===0){//подписка произошла
+                dispatch(unfollow(id));
+
+            }
+            dispatch(disableBtn(false,id));
+        })
+    }
+}
+
+export const followThunkCreator=(id)=>{
+    return (dispatch)=>{
+        dispatch(disableBtn(true,id));
+        usersAPI.followUser(id).then(responce=>{
+            
+            if(responce.data.resultCode===0){//подписка произошла
+                dispatch(follow(id));
+
+            }
+            dispatch(disableBtn(false,id));
+        })
     }
 }

@@ -30,29 +30,13 @@ let Users=(props)=>{
                     <div>
                         {users.followed 
                         ? <button disabled={props.disable.some(id=>id===users.id)} onClick={
-                            
                             ()=>{
-                               props.disableBtn(true,users.id);
-                               usersAPI.unfollowUser(users.id).then(responce=>{
-                                    
-                                    if(responce.data.resultCode===0){//подписка произошла
-                                        props.unfollow(users.id)
-
-                                    }
-                                    props.disableBtn(false,users.id);
-                                })
+                               props.unfollowThunkCreator(users.id);
                             }
                         }>Unfollow</button> 
                         : <button disabled={props.disable.some(id=>id===users.id)} onClick={
                             ()=>{
-                                props.disableBtn(true,users.id);
-                                usersAPI.followUser(users.id).then(responce=>{
-                                    if(responce.data.resultCode===0){//подписка произошла
-                                        props.follow(users.id)
-                                        
-                                    }
-                                    props.disableBtn(false,users.id);
-                                })
+                                props.followThunkCreator(users.id);
                             }
                         }>Follow</button>}
                         

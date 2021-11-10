@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const SET_USER_DATA="SET_USER_DATA";
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
 
@@ -42,5 +44,20 @@ export const setUserData=(userId,email,login)=>{
 export const changeLoader=(isFetching)=>{
     return {
         type:TOGGLE_IS_FETCHING,isFetching
+    }
+}
+
+
+
+export const loginThunkCreator=()=>{
+    return (dispatch)=>{
+        usersAPI.login().then(responce=>{
+            dispatch(changeLoader(true));
+            if(responce.data.resultCode===0){
+                dispatch(changeLoader(false));
+                let {id,email,login}=responce.data.data;
+                dispatch(setUserData(id,email,login));
+            }
+        })
     }
 }

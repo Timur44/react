@@ -30,5 +30,11 @@ export const usersAPI={
     unfollowUser(id){
         return  instance.delete(`/follow/${id}`)
     
+    },
+    setProfile(userId){
+        return axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+    },
+    login(){
+        return  instance.get('auth/me');
     }
 }

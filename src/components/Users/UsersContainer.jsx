@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { follow, setUsers, unfollow, setCurrentPage ,setTotalUsersCount, changeLoader,disableBtn} from '../../redux/users-reducer';
+import { follow, setUsers, unfollow, setCurrentPage ,setTotalUsersCount, changeLoader,disableBtn,getUserThunkCreator,unfollowThunkCreator,followThunkCreator} from '../../redux/users-reducer';
 import Users from './Users';
 import Preloader from '../Preloader/Preloader';
 import { changePage, getUsers, usersAPI } from '../../api/api';
@@ -11,21 +11,10 @@ class UserAPIComponent extends React.Component{
     }
 
     componentDidMount(){
-        this.props.changeLoader(true);
-        usersAPI.getUsers(this.props.currentPage,this.props.pageSize).then(data=>{
-        this.props.changeLoader(false);   
-        this.props.setUsers(data.items);
-        this.props.setTotalUsersCount(data.totalCount);
-        debugger;
-        })
+        this.props.getUserThunkCreator(this.props.currentPage,this.props.pageSize)
     }
     onPageChanged=pageNumber=>{
-        this.props.changeLoader(true);
-        this.props.setCurrentPage(pageNumber);
-        usersAPI.changePage(pageNumber,this.props.pageSize).then(data=>{
-        this.props.setUsers(data.items)
-        this.props.changeLoader(false);
-    })
+        this.props.getUserThunkCreator(pageNumber,this.props.pageSize)
     }
 
     render() {
@@ -41,6 +30,8 @@ class UserAPIComponent extends React.Component{
             unfollow={this.props.unfollow}
             disable={this.props.disable}
             disableBtn={this.props.disableBtn}
+            unfollowThunkCreator={this.props.unfollowThunkCreator}
+            followThunkCreator={this.props.followThunkCreator}
         ></Users></>
     }
 }
@@ -65,7 +56,10 @@ let UsersContainer=connect(mapStatetoProps,{
     setCurrentPage,
     setTotalUsersCount,
     changeLoader,
-    disableBtn
+    disableBtn,
+    getUserThunkCreator,
+    unfollowThunkCreator,
+    followThunkCreator
 })(UserAPIComponent)
 
 export default UsersContainer
