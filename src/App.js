@@ -4,6 +4,7 @@ import './App.css';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import Header from './components/Header/Header';
 import HeaderContainer from './components/Header/HeaderContainer';
+import LoginContainer from './components/Login/LoginContainer';
 import Nav from './components/Nav/Nav';
 import Profile from './components/Profile/Profile';
 import ProfileContainer from './components/Profile/ProfileContainer';
@@ -29,6 +30,11 @@ const App=(props)=>{
         }/>
           <Route exact path='/users' render={()=>
           <UsersContainer
+            store={props.store} 
+          />
+        }/>
+          <Route exact path='/login' render={()=>
+          <LoginContainer
             store={props.store} 
           />
         }/>

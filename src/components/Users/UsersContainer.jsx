@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { follow, setUsers, unfollow, setCurrentPage ,setTotalUsersCount, changeLoader,disableBtn,getUserThunkCreator,unfollowThunkCreator,followThunkCreator} from '../../redux/users-reducer';
 import Users from './Users';
 import Preloader from '../Preloader/Preloader';
-import { changePage, getUsers, usersAPI } from '../../api/api';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../../hoc/AuthRedirect';
+
 class UserAPIComponent extends React.Component{
     constructor(props){
         super(props);
@@ -49,17 +51,21 @@ let mapStatetoProps=(state)=>{
 
 
 
-let UsersContainer=connect(mapStatetoProps,{
-    follow,
-    unfollow,
-    setUsers,
-    setCurrentPage,
-    setTotalUsersCount,
-    changeLoader,
-    disableBtn,
-    getUserThunkCreator,
-    unfollowThunkCreator,
-    followThunkCreator
-})(UserAPIComponent)
 
-export default UsersContainer
+
+export default compose(
+    connect(mapStatetoProps,{
+        follow,
+        unfollow,
+        setUsers,
+        setCurrentPage,
+        setTotalUsersCount,
+        changeLoader,
+        disableBtn,
+        getUserThunkCreator,
+        unfollowThunkCreator,
+        followThunkCreator
+    }),
+    withAuthRedirect
+
+)(UserAPIComponent)

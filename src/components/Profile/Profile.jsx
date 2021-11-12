@@ -2,6 +2,7 @@ import React from 'react';
 import Preloader from '../Preloader/Preloader';
 import MyPostContainer from './MyPosts/MyPostContainer';
 import profile from './Profile.module.css'
+
 const Profile=(props)=>{
   
     if(!props.profile){

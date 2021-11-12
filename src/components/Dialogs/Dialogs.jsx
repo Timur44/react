@@ -1,7 +1,8 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import { sendNewMessageActionCreator, updateNewMessageBodyActionCreator } from '../../redux/dialogs-reducer.js';
 import dialogs from './Dialogs.module.css'
+import { Redirect } from 'react-router'
 
 
 
@@ -15,7 +16,6 @@ const DialogsItem=(props)=>{
 const Message=(props)=>{
     return <div className={dialogs.item}>{props.name}</div>
 }
-
 
 
 
@@ -33,7 +33,7 @@ const Dialogs=(props)=>{
        props.newMessageChange(body);
     }
 
-
+  
     return(
         <div>
             <h1>Dialogs</h1>
