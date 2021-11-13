@@ -2,6 +2,7 @@ import React from 'react';
 import Preloader from '../Preloader/Preloader';
 import MyPostContainer from './MyPosts/MyPostContainer';
 import profile from './Profile.module.css'
+import ProfileStatus from './ProfileStatus';
 
 const Profile=(props)=>{
   
@@ -13,12 +14,8 @@ const Profile=(props)=>{
       
       <div className={profile.main}>
           <div>
-            <img className={profile.main_img} src="https://wallpapersprinted.com/download/2/mountain_road_scenery-wallpaper-3840x2400.jpg"></img>
-          </div>
-          <div>
-
-              
               <p>description:{props.profile.fullName}</p>
+              <ProfileStatus status="hello" ></ProfileStatus>
           </div>
           <MyPostContainer/>
       </div>
