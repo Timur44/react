@@ -32,9 +32,24 @@ export const usersAPI={
     
     },
     setProfile(userId){
-        return axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+        console.warn("Using old version,please change this one")
+        return profileAPI.setProfile(userId);
     },
     login(){
         return  instance.get('auth/me');
     }
 }
+
+export const profileAPI={
+    setProfile(userId){
+        return axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+    },
+    setStatus(userId){
+        return instance.get(`profile/status/${userId}`)
+    },
+    updateStatus(status){
+        
+        return instance.put(`status`,{status:status})
+    }
+}
+

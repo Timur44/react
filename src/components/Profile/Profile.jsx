@@ -15,7 +15,7 @@ const Profile=(props)=>{
       <div className={profile.main}>
           <div>
               <p>description:{props.profile.fullName}</p>
-              <ProfileStatus status="hello" ></ProfileStatus>
+              <ProfileStatus status={props.status} updateStatus={props.updateStatusThunkCreator} ></ProfileStatus>
           </div>
           <MyPostContainer/>
       </div>
