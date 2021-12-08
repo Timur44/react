@@ -18,12 +18,10 @@ let mapStateToProps=(state)=>{
 
 let mapDispatchToProps=(dispatch)=>{
     return {
-        sendMessageClick:()=>{
-            dispatch(sendNewMessageActionCreator());
-        },
-        newMessageChange:(body)=>{
-           dispatch(updateNewMessageBodyActionCreator(body));
+        sendMessageClick:(newMessageBody)=>{
+            dispatch(sendNewMessageActionCreator(newMessageBody));
         }
+        
     }
 }
 

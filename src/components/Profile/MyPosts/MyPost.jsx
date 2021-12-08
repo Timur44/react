@@ -1,19 +1,23 @@
 import React from 'react';
 import Post from './Post/Post';
 import mypost from './MyPost.module.css';
+import { Field, reduxForm } from 'redux-form';
+
+const addNewPost=(props)=>{
+    return <form onSubmit={props.handleSubmit}>
+        <Field component="textarea" name="addPostText" className={mypost.block} defaultValue="it-kamasutra"></Field>
+        <button>Create post</button>
+    </form> 
+}
+
+const AddNewPostRedux=reduxForm({form:'profilePost'})(addNewPost)
 
 
 const MyPost=(props)=>{
 
-    let newPostElem=React.createRef();
-    
-    let onChangePostText=()=>{
-        let text=newPostElem.current.value;
-        props.updateNewPostText(text);
-    }
-
-    let addPostText=()=>{
-        props.addPost();
+    let addPostText=(value)=>{
+        props.addPost(value.addPostText);
+        value.addPostText=''
     }
 
     let post=props.profilePage.postMessage.map(item=>{
@@ -26,10 +30,9 @@ const MyPost=(props)=>{
       
         <div>
             <div  className={mypost.item}>My post</div>
-            <textarea ref={newPostElem} className={mypost.block} value={props.profilePage.newPostText} onChange={onChangePostText}></textarea>
-            <button onClick={addPostText}>Create post</button>
             <div>New Post</div>
             <div>{post}</div>
+            <AddNewPostRedux onSubmit={addPostText}/>
         </div>
     )
 }

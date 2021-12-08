@@ -17,17 +17,11 @@ const profileReducer=(state=initialState,action)=>{
         case ADD_POST:
             let newPost={
                 id:1,
-                message:state.newPostText
+                message:action.newPostText
             };
             return{
                 ...state,
                 postMessage:[...state.postMessage,newPost],
-                newPostText:''
-            };
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText:action.newText
             };
         case SET_USERS_PROFILE:
             return {
@@ -48,14 +42,9 @@ const profileReducer=(state=initialState,action)=>{
 export default profileReducer;
 
 
-export const addPostActionCreator=()=>{
+export const addPostActionCreator=(newPostText)=>{
     return {
-        type:ADD_POST
-    }
-}
-export const updateNewPostTextActionCreator=(text)=>{
-    return {
-        type:UPDATE_NEW_POST_TEXT,newText:text
+        type:ADD_POST,newPostText
     }
 }
 export const setUsersProfile=(profile)=>{
