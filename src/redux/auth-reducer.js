@@ -1,4 +1,4 @@
-import { usersAPI } from "../api/api";
+import { authAPI, usersAPI } from "../api/api";
 
 const SET_USER_DATA="SET_USER_DATA";
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
@@ -17,7 +17,7 @@ const authReducer=(state=initialState,action)=>{
             return{
                 ...state,
                 ...action.data,
-                isAuth:true
+                
             };
         case TOGGLE_IS_FETCHING:
             return{
@@ -36,9 +36,9 @@ export default authReducer;
 
 
 
-export const setUserData=(userId,email,login)=>{
+export const setUserData=(userId,email,login,isAuth)=>{
     return {
-        type:SET_USER_DATA,data:{userId,email,login}
+        type:SET_USER_DATA,data:{userId,email,login,isAuth}
     }
 }
 export const changeLoader=(isFetching)=>{
@@ -52,11 +52,34 @@ export const changeLoader=(isFetching)=>{
 export const loginThunkCreator=()=>{
     return (dispatch)=>{
         usersAPI.login().then(responce=>{
-            dispatch(changeLoader(true));
+            dispatch(changeLoader(true))
             if(responce.data.resultCode===0){
-                dispatch(changeLoader(false));
+                dispatch(changeLoader(false))
                 let {id,email,login}=responce.data.data;
-                dispatch(setUserData(id,email,login));
+                dispatch(setUserData(id,email,login,true));
+            }else{
+                console.warn('you should log in');
+                dispatch(changeLoader(false))
+            }
+        })
+    }
+}
+export const logIn=(email,password,rememberMe)=>{
+    return (dispatch)=>{
+        authAPI.login(email,password,rememberMe).then(responce=>{
+            if(responce.data.resultCode===0){
+                dispatch(loginThunkCreator())
+            }
+        })
+    }
+}
+
+
+export const logOut=()=>{
+    return (dispatch)=>{
+        authAPI.logOut().then(responce=>{
+            if(responce.data.resultCode===0){
+                dispatch(setUserData(null,null,null,false));
             }
         })
     }

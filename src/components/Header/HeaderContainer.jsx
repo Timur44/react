@@ -3,14 +3,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Header from './Header';
 import Preloader from '../Preloader/Preloader';
-import { setUserData,changeLoader,loginThunkCreator} from '../../redux/auth-reducer';
+import { setUserData,changeLoader,loginThunkCreator,logOut} from '../../redux/auth-reducer';
 
 
 
 class HeaderContainer extends React.Component{
 
     componentDidMount(){
-        this.props.loginThunkCreator();
+        debugger
+        this.props.loginThunkCreator()
     }
     render(){
         
@@ -27,5 +28,5 @@ let mapStateToProps=(state)=>({
     isAuth:state.authReducer.isAuth,
     login:state.authReducer.login
 })
-export default connect(mapStateToProps,{setUserData,changeLoader,loginThunkCreator})(HeaderContainer);
+export default connect(mapStateToProps,{setUserData,changeLoader,loginThunkCreator,logOut})(HeaderContainer);
 
