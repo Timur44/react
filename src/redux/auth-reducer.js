@@ -1,4 +1,5 @@
 import { authAPI, usersAPI } from "../api/api";
+import { stopSubmit } from "redux-form";
 
 const SET_USER_DATA="SET_USER_DATA";
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
@@ -66,11 +67,15 @@ export const loginThunkCreator=()=>{
 }
 export const logIn=(email,password,rememberMe)=>{
     return (dispatch)=>{
+        
         authAPI.login(email,password,rememberMe).then(responce=>{
             if(responce.data.resultCode===0){
                 dispatch(loginThunkCreator())
+            }else{
+                let message=responce.data.messages.length>0 ? responce.data.messages[0] : "Some Error" 
+                dispatch(stopSubmit('login',{_error:message}))
             }
-        })
+        }) 
     }
 }
 

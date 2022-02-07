@@ -5,6 +5,7 @@ import { maxLengthCreator, requiredField } from '../../utils/validations/valid';
 import { Input } from '../Preloader/FormsControls';
 import { logIn,logOut } from '../../redux/auth-reducer';
 import { Redirect } from 'react-router-dom';
+import styles from './../Preloader/FormsControls.module.css'
 
 
 const LoginContainer=(props)=>{
@@ -28,6 +29,7 @@ const LoginForm=(props)=>{
             <div><Field component={Input} type="text" placeholder="login" name="email" validate={[requiredField,maxLength10]} text={`input`} /></div>
             <div><Field component={Input} type="password" placeholder="password" name="password" validate={[requiredField,maxLength10]} text={`input`} /></div>
             <div>Remember me <Field component={Input}  type="checkbox" placeholder="password" name="rememberMe" /></div>
+            {props.error && <div className={styles.summaryError}>{props.error}</div>}
             <div><button type="submit">Log in </button></div>
         </form>
     </div> 
