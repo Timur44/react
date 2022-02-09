@@ -9,10 +9,7 @@ import { setUserData,changeLoader,loginThunkCreator,logOut} from '../../redux/au
 
 class HeaderContainer extends React.Component{
 
-    componentDidMount(){
-        debugger
-        this.props.loginThunkCreator()
-    }
+    
     render(){
         
         return <>
@@ -28,5 +25,5 @@ let mapStateToProps=(state)=>({
     isAuth:state.authReducer.isAuth,
     login:state.authReducer.login
 })
-export default connect(mapStateToProps,{setUserData,changeLoader,loginThunkCreator,logOut})(HeaderContainer);
+export default connect(mapStateToProps,{setUserData,changeLoader,logOut})(HeaderContainer);
 

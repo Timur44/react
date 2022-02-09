@@ -50,20 +50,20 @@ export const changeLoader=(isFetching)=>{
 
 
 
-export const loginThunkCreator=()=>{
-    return (dispatch)=>{
-        usersAPI.login().then(responce=>{
-            dispatch(changeLoader(true))
-            if(responce.data.resultCode===0){
-                dispatch(changeLoader(false))
-                let {id,email,login}=responce.data.data;
-                dispatch(setUserData(id,email,login,true));
-            }else{
-                console.warn('you should log in');
-                dispatch(changeLoader(false))
-            }
-        })
-    }
+export const loginThunkCreator=()=>(dispatch)=>{
+    
+    return usersAPI.login().then(responce=>{
+        dispatch(changeLoader(true))
+        if(responce.data.resultCode===0){
+            dispatch(changeLoader(false))
+            let {id,email,login}=responce.data.data;
+            dispatch(setUserData(id,email,login,true));
+        }else{
+            console.warn('you should log in');
+            dispatch(changeLoader(false))
+        }
+    })
+    
 }
 export const logIn=(email,password,rememberMe)=>{
     return (dispatch)=>{

@@ -5,6 +5,7 @@ import Users from './Users';
 import Preloader from '../Preloader/Preloader';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/AuthRedirect';
+import { getCurrentPage, getDisabledBtn, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../redux/users-selectors';
 
 class UserAPIComponent extends React.Component{
     constructor(props){
@@ -40,12 +41,12 @@ class UserAPIComponent extends React.Component{
 
 let mapStatetoProps=(state)=>{
     return{
-        users:state.usersReducer.users,
-        pageSize:state.usersReducer.pageSize,
-        totalUsersCount:state.usersReducer.totalUsersCount,
-        currentPage:state.usersReducer.currentPage,
-        isFetching:state.usersReducer.isFetching,
-        disable:state.usersReducer.disableBtn
+        users:getUsers(state),
+        pageSize:getPageSize(state),
+        totalUsersCount:getTotalUsersCount(state),
+        currentPage:getCurrentPage(state),
+        isFetching:getIsFetching(state),
+        disable:getDisabledBtn(state)
     }
 }
 
