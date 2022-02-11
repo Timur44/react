@@ -5,7 +5,7 @@ import Users from './Users';
 import Preloader from '../Preloader/Preloader';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/AuthRedirect';
-import { getCurrentPage, getDisabledBtn, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../redux/users-selectors';
+import { getCurrentPage, getDisabledBtn, getIsFetching, getPageSize, getTotalUsersCount, getUsers, getUsersSuperSelector } from '../../redux/users-selectors';
 
 class UserAPIComponent extends React.Component{
     constructor(props){
@@ -41,7 +41,7 @@ class UserAPIComponent extends React.Component{
 
 let mapStatetoProps=(state)=>{
     return{
-        users:getUsers(state),
+        users:getUsersSuperSelector(state),
         pageSize:getPageSize(state),
         totalUsersCount:getTotalUsersCount(state),
         currentPage:getCurrentPage(state),

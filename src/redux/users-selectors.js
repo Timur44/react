@@ -1,6 +1,11 @@
+import { createSelector } from "reselect"
+
 export const getUsers=(state)=>{
     return state.usersReducer.users
 }
+export const getUsersSuperSelector=createSelector(getUsers,(users)=>{
+    return users;
+})
 export const getPageSize=(state)=>{
     return state.usersReducer.pageSize
 }
