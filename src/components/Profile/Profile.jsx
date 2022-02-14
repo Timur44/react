@@ -3,6 +3,7 @@ import Preloader from '../Preloader/Preloader';
 import MyPostContainer from './MyPosts/MyPostContainer';
 import profile from './Profile.module.css'
 import ProfileStatus from './ProfileStatus';
+import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 
 const Profile=(props)=>{
     debugger;
@@ -15,7 +16,7 @@ const Profile=(props)=>{
       <div className={profile.main}>
           <div>
               <p>description:{props.profile.fullName}</p>
-              <ProfileStatus status={props.status} updateStatus={props.updateStatusThunkCreator} ></ProfileStatus>
+              <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatusThunkCreator} ></ProfileStatusWithHooks>
           </div>
           <MyPostContainer/>
       </div>
