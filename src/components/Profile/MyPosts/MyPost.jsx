@@ -15,21 +15,23 @@ const addNewPost=(props)=>{
 const AddNewPostRedux=reduxForm({form:'profilePost'})(addNewPost)
 
 
-const MyPost=(props)=>{
-
+const MyPost=React.memo((props)=>{
+  
+    
+    console.log('awadwd')
     let addPostText=(value)=>{
         props.addPost(value.addPostText);
         value.addPostText=''
     }
 
     let post=props.profilePage.postMessage.map(item=>{
-       return <Post message={item.message}/>
+        return <Post message={item.message}/>
     });
 
 
 
     return(
-      
+        
         <div>
             <div  className={mypost.item}>My post</div>
             <div>New Post</div>
@@ -37,6 +39,8 @@ const MyPost=(props)=>{
             <AddNewPostRedux onSubmit={addPostText}/>
         </div>
     )
-}
+
+    
+})
 
 export default MyPost;
