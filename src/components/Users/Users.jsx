@@ -1,24 +1,11 @@
 
-import axios from 'axios';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { followUser, unfollowUser, usersAPI } from '../../api/api';
+import Paginator from './Paginator';
 import u from './Users.module.css'
 let Users=(props)=>{
-    let pagesCount=Math.ceil(props.totalUsersCount/props.pageSize)
-    let pages=[];
-    for (let i = 1; i <=pagesCount; i++) {
-        pages.push(i);
-        
-    }
-
     return <div>
-            <div className={u.choice}>
-                {pages.map(page=>{
-                    return <span className={props.currentPage===page && u.pages}onClick={()=>{props.onPageChanged(page)}}>{page}</span>
-                })}
-            </div>
-            
+            <Paginator currentPage={props.currentPage} onPageChanged={props.onPageChanged} totalUsersCount={props.totalUsersCount} pageSize={props.pageSize}></Paginator>
             {props.users.map(users=><div className={u.flex} key={users.id}>
                 <span >
                     <div>

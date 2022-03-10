@@ -23,13 +23,13 @@ const LoginContainer=(props)=>{
     </div> 
 }
 const maxLength10=maxLengthCreator(20)
-const LoginForm=(props)=>{
+const LoginForm=({handleSubmit,error})=>{
     return <div>
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div><Field component={Input} type="text" placeholder="login" name="email" validate={[requiredField,maxLength10]} text={`input`} /></div>
             <div><Field component={Input} type="password" placeholder="password" name="password" validate={[requiredField,maxLength10]} text={`input`} /></div>
             <div>Remember me <Field component={Input}  type="checkbox" placeholder="password" name="rememberMe" /></div>
-            {props.error && <div className={styles.summaryError}>{props.error}</div>}
+            {error && <div className={styles.summaryError}>{error}</div>}
             <div><button type="submit">Log in </button></div>
         </form>
     </div> 

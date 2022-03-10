@@ -7,10 +7,11 @@ import LoginContainer from './components/Login/LoginContainer';
 import Nav from './components/Nav/Nav';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import UsersContainer from './components/Users/UsersContainer';
-import { connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import Preloader from './components/Preloader/Preloader'
 import { setInitializedApp } from './redux/app-reducer';
+import store from './redux/redux-store.js';
 
 
 class App extends React.Component{
@@ -57,6 +58,14 @@ class App extends React.Component{
 const mapStateToProps=(state)=>({
   initialized:state.appReducer.initialized
 })
-export default compose(
+let AppContainer=compose(
   connect(mapStateToProps,{setInitializedApp}))(App);
+
+const SamurayJSApp=(props)=>{
+  return(
+  <Provider store={store}>
+      <AppContainer/>
+  </Provider>)
+}
+export default SamurayJSApp
 
