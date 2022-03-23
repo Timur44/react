@@ -20,7 +20,7 @@ let Paginator=(props)=>{
                 {pages
                 .filter(p=>p>=leftBorder && p<=rightBorder)
                 .map(page=>{
-                    return <span className={props.currentPage===page && u.pages}onClick={()=>{props.onPageChanged(page)}} >{page}</span>
+                    return <span className={props.currentPage===page && u.pages} onClick={()=>{props.onPageChanged(page)}} >{page}</span>
                 })}
             </div>
             {portionCount>portionNumber &&

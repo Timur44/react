@@ -1,17 +1,18 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import DialogsContainer from './components/Dialogs/DialogsContainer';
-import HeaderContainer from './components/Header/HeaderContainer';
-import LoginContainer from './components/Login/LoginContainer';
-import Nav from './components/Nav/Nav';
-import ProfileContainer from './components/Profile/ProfileContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import Preloader from './components/Preloader/Preloader'
 import { setInitializedApp } from './redux/app-reducer';
 import store from './redux/redux-store.js';
+import HeaderContainer from './components/Header/HeaderContainer';
+import LoginContainer from './components/Login/LoginContainer';
+import Nav from './components/Nav/Nav';
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+
 
 
 class App extends React.Component{
@@ -28,15 +29,17 @@ class App extends React.Component{
         <div className="wrapper">
           <HeaderContainer/>
           <Nav/>
-          <Route exact path='/dialogs' render={()=>
-            <DialogsContainer 
-              store={this.props.store} 
-            />
+          <Route exact path='/dialogs' render={()=>{
+              return <React.Suspense fallback={<div>Loading...</div>}>
+                 <DialogsContainer store={this.props.store}/>
+              </React.Suspense>
+          }
             }/>
-          <Route exact path='/profile/:userId?' render={()=>
-            <ProfileContainer
-              store={this.props.store} 
-            />
+          <Route exact path='/profile/:userId?' render={()=>{
+            return <React.Suspense fallback={<div>Loading...</div>}>
+                <ProfileContainer store={this.props.store}/>
+            </React.Suspense>
+          }
           }/>
             <Route exact path='/users' render={()=>
             <UsersContainer

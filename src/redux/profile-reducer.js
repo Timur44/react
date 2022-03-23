@@ -5,12 +5,14 @@ const DELETE_POST="DELETE_POST";
 const UPDATE_NEW_POST_TEXT="UPDATE-NEW-POST-TEXT";
 const SET_USERS_PROFILE="SET_USERS_PROFILE";
 const SET_STATUS="SET_STATUS";
+const UPDATE_PHOTO='UPDATE_PHOTO'
 debugger;
 let initialState={
     postMessage:[{id:0,message:"Hi"}],
     newPostText:'it-kamasutra',
     profile:null,
-    status:""
+    status:"",
+    photoURL:''
 };
 const profileReducer=(state=initialState,action)=>{
 
@@ -28,6 +30,11 @@ const profileReducer=(state=initialState,action)=>{
             return{
                 ...state,
                 postMessage:state.postMessage.filter(item=>item!=action.dleteId),
+            };
+        case UPDATE_PHOTO:
+            return{
+                ...state,
+                photoURL:action.url
             };
         case SET_USERS_PROFILE:
             return {
@@ -67,6 +74,11 @@ export const setUsersProfile=(profile)=>{
 export const setStatus=(status)=>{
     return {
         type:SET_STATUS,status
+    }
+}
+export const updatePhoto=(url)=>{
+    return {
+        type:UPDATE_PHOTO,url
     }
 }
 

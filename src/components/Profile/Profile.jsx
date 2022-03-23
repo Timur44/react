@@ -14,6 +14,7 @@ const Profile=(props)=>{
       
       <div className={profile.main}>
           <div>
+              <img src={props.photo}></img>
               <p>description:{props.profile.fullName}</p>
               <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatusThunkCreator} ></ProfileStatusWithHooks>
           </div>
