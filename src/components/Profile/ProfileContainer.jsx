@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Profile from './Profile';
-import { setUsersProfile,setUserThunkCreator,getStatusThunkCreator,updateStatusThunkCreator,updatePhoto,savePhotoThunkCreator} from '../../redux/profile-reducer';
+import { setUsersProfile,setUserThunkCreator,getStatusThunkCreator,updateStatusThunkCreator,updatePhoto,savePhotoThunkCreator,saveProfile} from '../../redux/profile-reducer';
 import { withRouter } from 'react-router';
 import { compose } from 'redux';
 
@@ -62,6 +62,6 @@ let mapStateToProps=(state)=>({
 
 
 export default compose(
-  connect(mapStateToProps,{setUsersProfile,setUserThunkCreator,getStatusThunkCreator,updateStatusThunkCreator,updatePhoto,savePhotoThunkCreator}),
+  connect(mapStateToProps,{setUsersProfile,setUserThunkCreator,getStatusThunkCreator,updateStatusThunkCreator,updatePhoto,savePhotoThunkCreator,saveProfile}),
   withRouter,
 )(ProfileContainer);

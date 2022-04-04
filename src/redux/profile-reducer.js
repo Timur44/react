@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import { profileAPI, usersAPI } from "../api/api";
 
 const ADD_POST="ADD-POST";
@@ -7,6 +8,7 @@ const SET_USERS_PROFILE="SET_USERS_PROFILE";
 const SET_STATUS="SET_STATUS";
 const UPDATE_PHOTO='UPDATE_PHOTO';
 const SAVE_PHOTO='SAVE_PHOTO';
+const SAVE_PROFILE='SAVE_PROFILE'
 debugger;
 let initialState={
     postMessage:[{id:0,message:"Hi"}],
@@ -43,6 +45,11 @@ const profileReducer=(state=initialState,action)=>{
             return {
                 ...state,
                 profile:action.profile
+            };
+        case SAVE_PROFILE:
+            return {
+                ...state,
+                profile:action.data
             };
         case SET_STATUS:
             return {
@@ -89,6 +96,12 @@ export const updatePhoto=(url)=>{
         type:UPDATE_PHOTO,url
     }
 }
+export const saveProf=(data)=>{
+    return {
+        type:SAVE_PROFILE,data
+    }
+}
+
 
 export const setUserThunkCreator=(userId)=>{
     return (dispatch)=>{
@@ -122,6 +135,14 @@ export const savePhotoThunkCreator=(photo)=>{
             if(responce.data.resultCode===0){
                
               dispatch(updatePhoto(responce.data.data.photos.small))
+          }});
+    }
+}
+export const saveProfile=(data)=>{
+    return (dispatch)=>{
+        profileAPI.saveProfile(data).then(responce=>{
+            if(responce.data.resultCode===0){
+            dispatch(saveProf(data));
           }});
     }
 }
