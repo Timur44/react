@@ -1,15 +1,17 @@
-import { authAPI, usersAPI } from "../api/api";
+import { authAPI, securityAPI, usersAPI } from "../api/api";
 import { stopSubmit } from "redux-form";
 
 const SET_USER_DATA="SET_USER_DATA";
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
+const GET_CAPTCHA_URL_SUCCSESS="GET_CAPTCHA_URL";
 
 let initialState={
     userId:null,
     email:null,
     login:null,
     isFetching:false,
-    isAuth:false
+    isAuth:false,
+    captchaURL:null
 };
 const authReducer=(state=initialState,action)=>{
     
@@ -26,7 +28,13 @@ const authReducer=(state=initialState,action)=>{
                 isFetching:action.isFetching
             };
 
-        
+        case GET_CAPTCHA_URL_SUCCSESS:
+            return{
+                ...state,
+                captchaURL:action.captcha
+            };
+    
+            
         default:
             return state;
     }
@@ -47,6 +55,11 @@ export const changeLoader=(isFetching)=>{
         type:TOGGLE_IS_FETCHING,isFetching
     }
 }
+export const getCaptcha=(captcha)=>{
+    return {
+        type:GET_CAPTCHA_URL_SUCCSESS,captcha
+    }
+}
 
 
 
@@ -65,13 +78,16 @@ export const loginThunkCreator=()=>(dispatch)=>{
     })
     
 }
-export const logIn=(email,password,rememberMe)=>{
+export const logIn=(email,password,rememberMe,captcha)=>{
     return (dispatch)=>{
         
-        authAPI.login(email,password,rememberMe).then(responce=>{
+        authAPI.login(email,password,rememberMe,captcha).then(responce=>{
             if(responce.data.resultCode===0){
                 dispatch(loginThunkCreator())
             }else{
+                if(responce.data.resultCode===10){
+                    dispatch(getCaptchaURL());
+                }
                 let message=responce.data.messages.length>0 ? responce.data.messages[0] : "Some Error" 
                 dispatch(stopSubmit('login',{_error:message}))
             }
@@ -86,6 +102,16 @@ export const logOut=()=>{
             if(responce.data.resultCode===0){
                 dispatch(setUserData(null,null,null,false));
             }
+        })
+    }
+}
+
+export const getCaptchaURL=()=>{
+    return (dispatch)=>{
+        debugger;
+        securityAPI.gettCaptcha().then(responce=>{
+            const captchaURL=responce.data.url;
+            dispatch(getCaptcha(captchaURL))
         })
     }
 }
