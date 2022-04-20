@@ -9,15 +9,20 @@ const SET_STATUS="SET_STATUS";
 const UPDATE_PHOTO='UPDATE_PHOTO';
 const SAVE_PHOTO='SAVE_PHOTO';
 const SAVE_PROFILE='SAVE_PROFILE'
-debugger;
+
+export type ProfileType={
+   id:number,
+   message:string
+}
 let initialState={
-    postMessage:[{id:0,message:"Hi"}],
+    postMessage:[{id:0,message:"Hi"}]as Array<ProfileType>,
     newPostText:'it-kamasutra',
-    profile:null,
+    profile:null as any,
     status:"",
     photoURL:''
 };
-const profileReducer=(state=initialState,action)=>{
+export type InitialStateType=typeof initialState;
+const profileReducer=(state=initialState,action:any):InitialStateType=>{
 
     switch(action.type){
         case ADD_POST:
@@ -65,72 +70,104 @@ const profileReducer=(state=initialState,action)=>{
 export default profileReducer;
 
 
-export const addPostActionCreator=(newPostText)=>{
+
+
+export type AddPostActionType={
+    type:typeof ADD_POST,
+    newPostText:string
+}
+export type DeletePostActionType={
+    type:typeof DELETE_POST,
+    dleteId:number
+}
+export type SetUsersProfileActionType={
+    type:typeof SET_USERS_PROFILE,
+    profile:any
+}
+export type SetStatusActionType={
+    type:typeof SET_STATUS,
+    status:string
+}
+export type SavePhotoActionType={
+    type:typeof SAVE_PHOTO,
+    photos:string
+}
+export type UpdatePhotoActionType={
+    type:typeof UPDATE_PHOTO,
+    url:string
+}
+export type SaveProfActionType={
+    type:typeof SAVE_PROFILE,
+    data:any
+}
+
+
+export const addPostActionCreator=(newPostText:string):AddPostActionType=>{
     return {
         type:ADD_POST,newPostText
     }
 }
-export const deletePost=(dleteId)=>{
+export const deletePost=(dleteId:number):DeletePostActionType=>{
     return {
         type:DELETE_POST,dleteId
     }
 }
-export const setUsersProfile=(profile)=>{
+export const setUsersProfile=(profile:any):SetUsersProfileActionType=>{
     return {
         type:SET_USERS_PROFILE,profile:profile
     }
 }
 
-export const setStatus=(status)=>{
+export const setStatus=(status:string):SetStatusActionType=>{
     return {
         type:SET_STATUS,status
     }
 }
-export const savePhoto=(photos)=>{
+export const savePhoto=(photos:string):SavePhotoActionType=>{
     return {
         type:SAVE_PHOTO,photos
     }
 }
-export const updatePhoto=(url)=>{
+export const updatePhoto=(url:string):UpdatePhotoActionType=>{
     return {
         type:UPDATE_PHOTO,url
     }
 }
-export const saveProf=(data)=>{
+export const saveProf=(data:any):SaveProfActionType=>{
     return {
         type:SAVE_PROFILE,data
     }
 }
 
 
-export const setUserThunkCreator=(userId)=>{
-    return (dispatch)=>{
+export const setUserThunkCreator=(userId:number)=>{
+    return (dispatch:any)=>{
         usersAPI.setProfile(userId).then(responce=>{
             dispatch(setUsersProfile(responce.data));
           });
     }
 }
 
-export const getStatusThunkCreator=(userId)=>{
-    return (dispatch)=>{
-        profileAPI.setStatus(userId).then(responce=>{
+export const getStatusThunkCreator=(userId:number)=>{
+    return (dispatch:any)=>{
+        profileAPI.setStatus(userId).then((responce:any)=>{
             dispatch(setStatus(responce.data));
           });
     }
 }
 
-export const updateStatusThunkCreator=(status)=>{
-    return (dispatch)=>{
-        profileAPI.updateStatus(status).then(responce=>{
+export const updateStatusThunkCreator=(status:string)=>{
+    return (dispatch:any)=>{
+        profileAPI.updateStatus(status).then((responce:any)=>{
             if(responce.data.resultCode===0){
             dispatch(setStatus(status));
           }});
     }
 }
-export const savePhotoThunkCreator=(photo)=>{
-    return (dispatch)=>{
+export const savePhotoThunkCreator=(photo:string)=>{
+    return (dispatch:any)=>{
         debugger;
-        profileAPI.savePhotos(photo).then(responce=>{
+        profileAPI.savePhotos(photo).then((responce:any)=>{
             debugger;
             if(responce.data.resultCode===0){
                
@@ -138,9 +175,9 @@ export const savePhotoThunkCreator=(photo)=>{
           }});
     }
 }
-export const saveProfile=(data)=>{
-    return (dispatch)=>{
-        profileAPI.saveProfile(data).then(responce=>{
+export const saveProfile=(data:any)=>{
+    return (dispatch:any)=>{
+        profileAPI.saveProfile(data).then((responce:any)=>{
             if(responce.data.resultCode===0){
             dispatch(saveProf(data));
           }});

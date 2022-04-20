@@ -7,16 +7,18 @@ const SET_CURRENT_PAGE="SET_CURRENT_PAGE"
 const SET_TOTAL_USERS_COUNT="SET_TOTAL_USERS_COUNT"
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
 const DISABLE_BTN="DISABLE_BTN"
+
 let initialState={
-   users:[],
+   users:[] as Array<any>,
    pageSize:5,
    totalUsersCount:0,
    currentPage:1,
    isFetching:true,
-   disableBtn:[]
+   disableBtn:[]as Array<number>
 
 };
-const usersReducer=(state=initialState,action)=>{
+type InitialStateType=typeof initialState
+const usersReducer=(state=initialState,action:any):InitialStateType=>{
     
     switch(action.type){
         case FOLLOW_AC:
@@ -78,39 +80,67 @@ const usersReducer=(state=initialState,action)=>{
 
 export default usersReducer;
 
+export type FollowActionType={
+    type:typeof FOLLOW_AC,
+    userId:number
+}
+export type UnfollowActionType={
+    type:typeof UNFOLLOW_AC,
+    userId:number
+}
+export type SetUsersActionType={
+    type:typeof SET_USERS,
+    users:any
+}
+export type SetCurrentPageActionType={
+    type:typeof SET_CURRENT_PAGE,
+    currentPage:number
+}
+export type SetTotalUsersCountActionType={
+    type:typeof SET_TOTAL_USERS_COUNT,
+    totalCount:number
+}
+export type ChangeLoaderActionType={
+    type:typeof TOGGLE_IS_FETCHING,
+    isFetching:boolean
+}
+export type DisableBtnActionType={
+    type:typeof DISABLE_BTN,
+    disable:boolean,
+    id:number
+}
 
-
-export const follow=(userId)=>{
+export const follow=(userId:number):FollowActionType=>{
     return {
         type:FOLLOW_AC,userId
     }
 }
-export const unfollow=(userId)=>{
+export const unfollow=(userId:number):UnfollowActionType=>{
     return {
         type:UNFOLLOW_AC,userId
     }
 }
-export const setUsers=(users)=>{
+export const setUsers=(users:any):SetUsersActionType=>{
     return {
         type:SET_USERS,users
     }
 }
-export const setCurrentPage=(currentPage)=>{
+export const setCurrentPage=(currentPage:number):SetCurrentPageActionType=>{
     return {
         type:SET_CURRENT_PAGE,currentPage
     }
 }
-export const setTotalUsersCount=(totalCount)=>{
+export const setTotalUsersCount=(totalCount:number):SetTotalUsersCountActionType=>{
     return {
         type:SET_TOTAL_USERS_COUNT,totalCount
     }
 }
-export const changeLoader=(isFetching)=>{
+export const changeLoader=(isFetching:boolean):ChangeLoaderActionType=>{
     return {
         type:TOGGLE_IS_FETCHING,isFetching
     }
 }
-export const disableBtn=(disable,id)=>{
+export const disableBtn=(disable:boolean,id:number):DisableBtnActionType=>{
     return {
         type:DISABLE_BTN,disable,id
     }
@@ -118,10 +148,10 @@ export const disableBtn=(disable,id)=>{
 
 
 
-export const getUserThunkCreator=(currentPage,pageSize)=>{
-    return (dispatch)=>{
+export const getUserThunkCreator=(currentPage:number,pageSize:number)=>{
+    return (dispatch:any)=>{
         dispatch(changeLoader(true));
-        usersAPI.getUsers(currentPage,pageSize).then(data=>{
+        usersAPI.getUsers(currentPage,pageSize).then((data:any)=>{
             dispatch(changeLoader(false));   
             dispatch(setCurrentPage(currentPage))
             dispatch(setUsers(data.items));
@@ -130,10 +160,10 @@ export const getUserThunkCreator=(currentPage,pageSize)=>{
     }
 }
 
-export const unfollowThunkCreator=(id)=>{
-    return (dispatch)=>{
+export const unfollowThunkCreator=(id:number)=>{
+    return (dispatch:any)=>{
         dispatch(disableBtn(true,id));
-        usersAPI.unfollowUser(id).then(responce=>{
+        usersAPI.unfollowUser(id).then((responce:any)=>{
             
             if(responce.data.resultCode===0){//подписка произошла
                 dispatch(unfollow(id));
@@ -144,10 +174,10 @@ export const unfollowThunkCreator=(id)=>{
     }
 }
 
-export const followThunkCreator=(id)=>{
-    return (dispatch)=>{
+export const followThunkCreator=(id:number)=>{
+    return (dispatch:any)=>{
         dispatch(disableBtn(true,id));
-        usersAPI.followUser(id).then(responce=>{
+        usersAPI.followUser(id).then((responce:any)=>{
             
             if(responce.data.resultCode===0){//подписка произошла
                 dispatch(follow(id));

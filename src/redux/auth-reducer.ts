@@ -1,26 +1,31 @@
 import { authAPI, securityAPI, usersAPI } from "../api/api";
 import { stopSubmit } from "redux-form";
+import { type } from "os";
 
 const SET_USER_DATA="SET_USER_DATA";
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
 const GET_CAPTCHA_URL_SUCCSESS="GET_CAPTCHA_URL";
 
+
+
+
 let initialState={
-    userId:null,
-    email:null,
-    login:null,
-    isFetching:false,
+    userId:null as string|null,
+    email:null as string|null,
+    login:null as string|null,
+    isFetching:false, 
     isAuth:false,
-    captchaURL:null
+    captchaURL:null as string|null
 };
-const authReducer=(state=initialState,action)=>{
+export type InitialStateType=typeof initialState;
+
+const authReducer=(state=initialState,action:any):InitialStateType=>{
     
     switch(action.type){
         case SET_USER_DATA:
             return{
                 ...state,
                 ...action.data,
-                
             };
         case TOGGLE_IS_FETCHING:
             return{
@@ -42,20 +47,39 @@ const authReducer=(state=initialState,action)=>{
 }
 
 export default authReducer;
+type SetUserDataActionDataType={
+    userId:number|null,
+    email:string|null,
+    login:string|null,
+    isAuth:boolean
+}
 
+type SetUserDataActionType={
+    type:typeof SET_USER_DATA,data:SetUserDataActionDataType
+}
 
-
-export const setUserData=(userId,email,login,isAuth)=>{
+export const setUserData=(userId:number|null,email:string|null,login:string|null,isAuth:boolean):SetUserDataActionType=>{
     return {
         type:SET_USER_DATA,data:{userId,email,login,isAuth}
     }
 }
-export const changeLoader=(isFetching)=>{
+
+type ChangeLoaderActionType={
+    type:typeof TOGGLE_IS_FETCHING,isFetching:boolean
+}
+
+export const changeLoader=(isFetching:boolean):ChangeLoaderActionType=>{
     return {
         type:TOGGLE_IS_FETCHING,isFetching
     }
 }
-export const getCaptcha=(captcha)=>{
+
+type GetCaptchaActionType={
+    type:typeof GET_CAPTCHA_URL_SUCCSESS,captcha:string
+}
+
+
+export const getCaptcha=(captcha:string):GetCaptchaActionType=>{
     return {
         type:GET_CAPTCHA_URL_SUCCSESS,captcha
     }
@@ -63,9 +87,9 @@ export const getCaptcha=(captcha)=>{
 
 
 
-export const loginThunkCreator=()=>(dispatch)=>{
+export const loginThunkCreator=()=>(dispatch: any)=>{
     
-    return usersAPI.login().then(responce=>{
+    return usersAPI.login().then((responce: any)=>{
         dispatch(changeLoader(true))
         if(responce.data.resultCode===0){
             dispatch(changeLoader(false))
@@ -78,10 +102,10 @@ export const loginThunkCreator=()=>(dispatch)=>{
     })
     
 }
-export const logIn=(email,password,rememberMe,captcha)=>{
-    return (dispatch)=>{
+export const logIn=(email:string,password:string,rememberMe:boolean,captcha:string)=>{
+    return (dispatch: any )=>{
         
-        authAPI.login(email,password,rememberMe,captcha).then(responce=>{
+        authAPI.login(email,password,rememberMe,captcha).then((responce:any)=>{
             if(responce.data.resultCode===0){
                 dispatch(loginThunkCreator())
             }else{
@@ -97,8 +121,8 @@ export const logIn=(email,password,rememberMe,captcha)=>{
 
 
 export const logOut=()=>{
-    return (dispatch)=>{
-        authAPI.logOut().then(responce=>{
+    return (dispatch: any)=>{
+        authAPI.logOut().then((responce:any)=>{
             if(responce.data.resultCode===0){
                 dispatch(setUserData(null,null,null,false));
             }
@@ -107,9 +131,9 @@ export const logOut=()=>{
 }
 
 export const getCaptchaURL=()=>{
-    return (dispatch)=>{
+    return (dispatch :any)=>{
         debugger;
-        securityAPI.gettCaptcha().then(responce=>{
+        securityAPI.gettCaptcha().then((responce:any)=>{
             const captchaURL=responce.data.url;
             dispatch(getCaptcha(captchaURL))
         })
