@@ -1,4 +1,7 @@
+import { Dispatch } from "react";
+import { ThunkAction } from "redux-thunk";
 import { usersAPI } from "../api/api";
+import { AppState } from "./redux-store";
 
 const FOLLOW_AC="FOLLOW_AC";
 const UNFOLLOW_AC="UNFOLLOW_AC";
@@ -18,7 +21,7 @@ let initialState={
 
 };
 type InitialStateType=typeof initialState
-const usersReducer=(state=initialState,action:any):InitialStateType=>{
+const usersReducer=(state=initialState,action:ActionTypes):InitialStateType=>{
     
     switch(action.type){
         case FOLLOW_AC:
@@ -110,6 +113,8 @@ export type DisableBtnActionType={
     id:number
 }
 
+export type ActionTypes=FollowActionType|UnfollowActionType|SetUsersActionType|SetCurrentPageActionType|SetTotalUsersCountActionType|ChangeLoaderActionType|DisableBtnActionType
+
 export const follow=(userId:number):FollowActionType=>{
     return {
         type:FOLLOW_AC,userId
@@ -148,8 +153,9 @@ export const disableBtn=(disable:boolean,id:number):DisableBtnActionType=>{
 
 
 
-export const getUserThunkCreator=(currentPage:number,pageSize:number)=>{
-    return (dispatch:any)=>{
+export const getUserThunkCreator=(currentPage:number,pageSize:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
+    return (dispatch,getState)=>{
+        
         dispatch(changeLoader(true));
         usersAPI.getUsers(currentPage,pageSize).then((data:any)=>{
             dispatch(changeLoader(false));   
@@ -160,7 +166,7 @@ export const getUserThunkCreator=(currentPage:number,pageSize:number)=>{
     }
 }
 
-export const unfollowThunkCreator=(id:number)=>{
+export const unfollowThunkCreator=(id:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch:any)=>{
         dispatch(disableBtn(true,id));
         usersAPI.unfollowUser(id).then((responce:any)=>{
@@ -174,7 +180,7 @@ export const unfollowThunkCreator=(id:number)=>{
     }
 }
 
-export const followThunkCreator=(id:number)=>{
+export const followThunkCreator=(id:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch:any)=>{
         dispatch(disableBtn(true,id));
         usersAPI.followUser(id).then((responce:any)=>{

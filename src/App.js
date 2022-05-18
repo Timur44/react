@@ -44,6 +44,7 @@ class App extends React.Component{
             <Route exact path='/users' render={()=>
             <UsersContainer
               store={this.props.store} 
+              title='Best'
             />
           }/>
             <Route exact path='/login' render={()=>

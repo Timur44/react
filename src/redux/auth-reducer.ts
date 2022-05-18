@@ -1,6 +1,7 @@
-import { authAPI, securityAPI, usersAPI } from "../api/api";
+import { authAPI, LoginTypes, ResultCodeEnum, securityAPI, usersAPI } from "../api/api";
 import { stopSubmit } from "redux-form";
 import { type } from "os";
+import { AxiosResponse } from "axios";
 
 const SET_USER_DATA="SET_USER_DATA";
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
@@ -89,7 +90,7 @@ export const getCaptcha=(captcha:string):GetCaptchaActionType=>{
 
 export const loginThunkCreator=()=>(dispatch: any)=>{
     
-    return usersAPI.login().then((responce: any)=>{
+    return usersAPI.login().then((responce:any)=>{
         dispatch(changeLoader(true))
         if(responce.data.resultCode===0){
             dispatch(changeLoader(false))
@@ -103,19 +104,19 @@ export const loginThunkCreator=()=>(dispatch: any)=>{
     
 }
 export const logIn=(email:string,password:string,rememberMe:boolean,captcha:string)=>{
-    return (dispatch: any )=>{
+    async (dispatch: any)=>{
         
-        authAPI.login(email,password,rememberMe,captcha).then((responce:any)=>{
-            if(responce.data.resultCode===0){
-                dispatch(loginThunkCreator())
-            }else{
-                if(responce.data.resultCode===10){
-                    dispatch(getCaptchaURL());
-                }
-                let message=responce.data.messages.length>0 ? responce.data.messages[0] : "Some Error" 
-                dispatch(stopSubmit('login',{_error:message}))
+       let responce=await authAPI.login(email,password,rememberMe,captcha)
+        if(responce.data.resultCode===ResultCodeEnum.Success){
+            dispatch(loginThunkCreator())
+        }else{
+            if(responce.data.resultCode===10){
+                dispatch(getCaptchaURL());
             }
-        }) 
+            let message=responce.data.messages.length>0 ? responce.data.messages[0] : "Some Error" 
+            dispatch(stopSubmit('login',{_error:message}))
+        }
+        
     }
 }
 
