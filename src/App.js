@@ -10,6 +10,7 @@ import store from './redux/redux-store.ts';
 import HeaderContainer from './components/Header/HeaderContainer';
 import LoginContainer from './components/Login/LoginContainer';
 import Nav from './components/Nav/Nav';
+import { Helmet,HelmetProvider } from 'react-helmet-async';
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 
@@ -67,9 +68,12 @@ let AppContainer=compose(
 
 const SamurayJSApp=(props)=>{
   return(
-  <Provider store={store}>
-      <AppContainer/>
-  </Provider>)
+    <HelmetProvider>
+       <Provider store={store}>
+          <AppContainer/>
+      </Provider>
+    </HelmetProvider>
+  )
 }
 export default SamurayJSApp
 

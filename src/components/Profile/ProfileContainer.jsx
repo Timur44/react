@@ -24,7 +24,7 @@ class ProfileContainer extends React.Component{
     this.props.getStatusThunkCreator(userId);
   }
   
-  componentDidMount(){
+  UNSAFE_componentDidMount(){
     this.refresh()
   }
   componentDidUpdate(prevProps,prevState, snapshot) {

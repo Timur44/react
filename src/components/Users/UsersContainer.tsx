@@ -46,7 +46,7 @@ class UserAPIComponent extends React.Component<Props>{
         
     }
 
-    componentDidMount(){
+    UNSAFE_componentDidMount(){
         this.props.getUserThunkCreator(this.props.currentPage,this.props.pageSize)
         
     }
