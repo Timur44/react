@@ -104,7 +104,7 @@ export const loginThunkCreator=()=>(dispatch: any)=>{
     
 }
 export const logIn=(email:string,password:string,rememberMe:boolean,captcha:string)=>{
-    async (dispatch: any)=>{
+    return async (dispatch: any)=>{
         
        let responce=await authAPI.login(email,password,rememberMe,captcha)
         if(responce.data.resultCode===ResultCodeEnum.Success){

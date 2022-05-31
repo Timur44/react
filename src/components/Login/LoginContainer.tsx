@@ -39,6 +39,8 @@ const LoginContainer:React.FC<MapStatePropsType & MapDispatchPropsType & IProps>
         <LoginReduxForm onSubmit={getDataFromForm} captchaURL={props.captchaURL}></LoginReduxForm>
     </div> 
 }
+
+
 const maxLength10=maxLengthCreator(20)
 
 
@@ -50,7 +52,6 @@ const LoginForm:React.FC<InjectedFormProps<FormDataType,IProps> & IProps>=({hand
     return <div>
         <form onSubmit={handleSubmit}>
             <div>{createField<FormDataTypeKeys>("login",'email',[requiredField,maxLength10],Input)}</div>
-            <div><Field component={Input} type="text" placeholder="login" name="email" validate={[requiredField,maxLength10]} text={`input`} /></div>
             <div><Field component={Input} type="password" placeholder="password" name="password" validate={[requiredField,maxLength10]} text={`input`} /></div>
             <div>Remember me <Field component={Input}  type="checkbox" placeholder="password" name="rememberMe" /></div>
             {captchaURL && <img src={captchaURL}></img>}
@@ -63,7 +64,7 @@ const LoginForm:React.FC<InjectedFormProps<FormDataType,IProps> & IProps>=({hand
 
 const LoginReduxForm=reduxForm<FormDataType,IProps>({ // <----- THIS IS THE IMPORTANT PART!
     form: 'login',                           // a unique name for this form
-  })(LoginForm)
+})(LoginForm)
 
 
   let mapStateToProps=(state:AppState)=>({

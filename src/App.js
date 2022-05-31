@@ -6,7 +6,7 @@ import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import Preloader from './components/Preloader/Preloader'
 import { setInitializedApp } from './redux/app-reducer';
-import store from './redux/redux-store.js';
+import store from './redux/redux-store.ts';
 import HeaderContainer from './components/Header/HeaderContainer';
 import LoginContainer from './components/Login/LoginContainer';
 import Nav from './components/Nav/Nav';

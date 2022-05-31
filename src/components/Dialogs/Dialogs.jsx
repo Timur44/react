@@ -1,11 +1,11 @@
 import React from 'react';
 import { NavLink} from 'react-router-dom';
-import { sendNewMessageActionCreator, updateNewMessageBodyActionCreator } from '../../redux/dialogs-reducer.js';
+
 import dialogs from './Dialogs.module.css'
 import { Redirect } from 'react-router'
 import { Field, reduxForm } from 'redux-form';
-import { Textarea } from '../Preloader/FormsControls.js';
-import { maxLengthCreator, requiredField } from '../../utils/validations/valid.js';
+import { Textarea } from '../Preloader/FormsControls.tsx';
+import { maxLengthCreator, requiredField } from '../../utils/validations/valid.ts';
 
 
 const maxLength10=maxLengthCreator(50)
