@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { ThunkAction } from "redux-thunk";
 import { usersAPI } from "../api/api";
-import { AppState } from "./redux-store";
+import { AppState, InfernActionsType } from "./redux-store";
 
 const FOLLOW_AC="FOLLOW_AC";
 const UNFOLLOW_AC="UNFOLLOW_AC";
@@ -83,113 +83,156 @@ const usersReducer=(state=initialState,action:ActionTypes):InitialStateType=>{
 
 export default usersReducer;
 
-export type FollowActionType={
-    type:typeof FOLLOW_AC,
-    userId:number
-}
-export type UnfollowActionType={
-    type:typeof UNFOLLOW_AC,
-    userId:number
-}
-export type SetUsersActionType={
-    type:typeof SET_USERS,
-    users:any
-}
-export type SetCurrentPageActionType={
-    type:typeof SET_CURRENT_PAGE,
-    currentPage:number
-}
-export type SetTotalUsersCountActionType={
-    type:typeof SET_TOTAL_USERS_COUNT,
-    totalCount:number
-}
-export type ChangeLoaderActionType={
-    type:typeof TOGGLE_IS_FETCHING,
-    isFetching:boolean
-}
-export type DisableBtnActionType={
-    type:typeof DISABLE_BTN,
-    disable:boolean,
-    id:number
-}
+// export type FollowActionType={
+//     type:typeof FOLLOW_AC,
+//     userId:number
+// }
+// export type UnfollowActionType={
+//     type:typeof UNFOLLOW_AC,
+//     userId:number
+// }
+// export type SetUsersActionType={
+//     type:typeof SET_USERS,
+//     users:any
+// }
+// export type SetCurrentPageActionType={
+//     type:typeof SET_CURRENT_PAGE,
+//     currentPage:number
+// }
+// export type SetTotalUsersCountActionType={
+//     type:typeof SET_TOTAL_USERS_COUNT,
+//     totalCount:number
+// }
+// export type ChangeLoaderActionType={
+//     type:typeof TOGGLE_IS_FETCHING,
+//     isFetching:boolean
+// }
+// export type DisableBtnActionType={
+//     type:typeof DISABLE_BTN,
+//     disable:boolean,
+//     id:number
+// }
 
-export type ActionTypes=FollowActionType|UnfollowActionType|SetUsersActionType|SetCurrentPageActionType|SetTotalUsersCountActionType|ChangeLoaderActionType|DisableBtnActionType
+// export type ActionTypes=FollowActionType|UnfollowActionType|SetUsersActionType|SetCurrentPageActionType|SetTotalUsersCountActionType|ChangeLoaderActionType|DisableBtnActionType
 
-export const follow=(userId:number):FollowActionType=>{
+
+const actions={
+    
+ follow:(userId:number)=>{
     return {
         type:FOLLOW_AC,userId
-    }
-}
-export const unfollow=(userId:number):UnfollowActionType=>{
+    } as const
+},
+unfollow:(userId:number)=>{
     return {
         type:UNFOLLOW_AC,userId
-    }
-}
-export const setUsers=(users:any):SetUsersActionType=>{
+    } as const
+},
+setUsers:(users:any)=>{
     return {
         type:SET_USERS,users
-    }
-}
-export const setCurrentPage=(currentPage:number):SetCurrentPageActionType=>{
+    } as const
+},
+setCurrentPage:(currentPage:number)=>{
     return {
         type:SET_CURRENT_PAGE,currentPage
-    }
-}
-export const setTotalUsersCount=(totalCount:number):SetTotalUsersCountActionType=>{
+    } as const 
+},
+ setTotalUsersCount:(totalCount:number)=>{
     return {
         type:SET_TOTAL_USERS_COUNT,totalCount
-    }
-}
-export const changeLoader=(isFetching:boolean):ChangeLoaderActionType=>{
+    } as const
+},
+ changeLoader:(isFetching:boolean)=>{
     return {
         type:TOGGLE_IS_FETCHING,isFetching
-    }
-}
-export const disableBtn=(disable:boolean,id:number):DisableBtnActionType=>{
+    } as const
+},
+ disableBtn:(disable:boolean,id:number)=>{
     return {
         type:DISABLE_BTN,disable,id
-    }
+    } as const
 }
+
+}
+export type ActionTypes=InfernActionsType<typeof actions>
+
+
+// export const follow=(userId:number):FollowActionType=>{
+//     return {
+//         type:FOLLOW_AC,userId
+//     }
+// }
+// export const unfollow=(userId:number):UnfollowActionType=>{
+//     return {
+//         type:UNFOLLOW_AC,userId
+//     }
+// }
+// export const setUsers=(users:any):SetUsersActionType=>{
+//     return {
+//         type:SET_USERS,users
+//     }
+// }
+// export const setCurrentPage=(currentPage:number):SetCurrentPageActionType=>{
+//     return {
+//         type:SET_CURRENT_PAGE,currentPage
+//     }
+// }
+// export const setTotalUsersCount=(totalCount:number):SetTotalUsersCountActionType=>{
+//     return {
+//         type:SET_TOTAL_USERS_COUNT,totalCount
+//     }
+// }
+// export const changeLoader=(isFetching:boolean):ChangeLoaderActionType=>{
+//     return {
+//         type:TOGGLE_IS_FETCHING,isFetching
+//     }
+// }
+// export const disableBtn=(disable:boolean,id:number):DisableBtnActionType=>{
+//     return {
+//         type:DISABLE_BTN,disable,id
+//     }
+// }
 
 
 
 export const getUserThunkCreator=(currentPage:number,pageSize:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch,getState)=>{
         
-        dispatch(changeLoader(true));
+        dispatch(actions.changeLoader(true));
         usersAPI.getUsers(currentPage,pageSize).then((data:any)=>{
-            dispatch(changeLoader(false));   
-            dispatch(setCurrentPage(currentPage))
-            dispatch(setUsers(data.items));
-            dispatch(setTotalUsersCount(data.totalCount));
+            dispatch(actions.changeLoader(false));      
+            dispatch(actions.setCurrentPage(currentPage))
+            dispatch(actions.setUsers(data.items));
+            dispatch(actions.setTotalUsersCount(data.totalCount));
         })
     }
 }
 
 export const unfollowThunkCreator=(id:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch:any)=>{
-        dispatch(disableBtn(true,id));
+        dispatch(actions.disableBtn(true,id));
         usersAPI.unfollowUser(id).then((responce:any)=>{
             
             if(responce.data.resultCode===0){//подписка произошла
-                dispatch(unfollow(id));
+                dispatch(actions.unfollow(id));
 
             }
-            dispatch(disableBtn(false,id));
+            dispatch(actions.disableBtn(false,id));
         })
     }
 }
 
 export const followThunkCreator=(id:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch:any)=>{
-        dispatch(disableBtn(true,id));
+        dispatch(actions.disableBtn(true,id));
         usersAPI.followUser(id).then((responce:any)=>{
             
             if(responce.data.resultCode===0){//подписка произошла
-                dispatch(follow(id));
+                dispatch(actions.follow(id));
 
             }
-            dispatch(disableBtn(false,id));
+            dispatch(actions.disableBtn(false,id));
         })
     }
 }

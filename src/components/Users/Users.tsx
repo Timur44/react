@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { UnfollowActionType } from '../../redux/users-reducer';
+import  UnfollowActionType  from '../../redux/users-reducer';
 import Paginator from './Paginator';
 import u from './Users.module.css'
 type Props={

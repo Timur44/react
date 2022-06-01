@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { follow, unfollow,unfollowThunkCreator,followThunkCreator,getUserThunkCreator, ActionTypes, FollowActionType, UnfollowActionType} from '../../redux/users-reducer';
+import { unfollowThunkCreator,followThunkCreator,getUserThunkCreator, ActionTypes, } from '../../redux/users-reducer';
+import unfollow from "../../redux/users-reducer"
+import follow from "../../redux/users-reducer"
 import Users from './Users';
 import Preloader from '../Preloader/Preloader';
 import { compose } from 'redux';

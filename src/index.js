@@ -12,9 +12,9 @@ import SamurayJSApp from './App';
 
 
   ReactDOM.render(
-    <React.StrictMode>
+   
         <SamurayJSApp></SamurayJSApp>
-    </React.StrictMode>,
+    ,
     document.getElementById('root')
   );
 
