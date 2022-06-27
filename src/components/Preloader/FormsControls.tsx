@@ -2,8 +2,6 @@ import React, { Component, FC } from 'react';
 import { Field } from 'redux-form';
 import { FieldValidatorType } from '../../utils/validations/valid';
 import styles from './FormsControls.module.css' 
-
-type FormsControlType=(params:FormControlsParamType)=>React.ReactNode
 type FormControlsParamType={
     meta:{
         touched:boolean,

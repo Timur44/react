@@ -12,12 +12,14 @@ import { AppState } from '../../redux/redux-store';
 type MapStatePropsType={
     isAuth:boolean,
     captchaURL:string | null
+    store:any,
+   
 }
 type MapDispatchPropsType={
     logIn:(email:string,password:string,rememberMe:boolean,captcha:string)=>void,
 }
 
-type FormDataType={
+export type FormDataType={
     email:string,
     password:string,
     rememberMe:boolean,

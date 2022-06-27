@@ -1,12 +1,32 @@
 import React, { useState } from 'react';
+import { ThunkAction } from 'redux-thunk';
+import { AppState } from '../../redux/redux-store';
+import { ActionTypes } from '../../redux/users-reducer';
 import Preloader from '../Preloader/Preloader';
 import MyPostContainer from './MyPosts/MyPostContainer';
 import profile from './Profile.module.css'
 import ProfileDataReduxForm from './ProfileDataForm';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
 
+export type Props={
+  profile:any,
+  status:string,
+  isOwner:any,
+  myUserId:number,
+  isAuth:boolean,
+  photo:string,
+  match:{
+    params:{
+      userId:number
+    }
+  },
 
-const Profile=(props)=>{
+  savePhotoThunkCreator:(photo:string)=>(dispatch:any)=>ThunkAction<void,AppState,unknown,ActionTypes>,
+  saveProfile:(data:any)=>(dispatch:any)=>ThunkAction<void,AppState,unknown,ActionTypes>,
+  updateStatusThunkCreator:(data:any)=>(dispatch:any)=>ThunkAction<void,AppState,unknown,ActionTypes>,
+
+}
+const Profile:React.FC<Props>=(props)=>{
 
     let [editMode,setEditMode]=useState(false)
 
@@ -14,14 +34,14 @@ const Profile=(props)=>{
       return <Preloader></Preloader>
       
     }
-    const selectMainPhohto=(e)=>{
+    const selectMainPhohto=(e:any)=>{
       props.savePhotoThunkCreator(e.target.files[0])
       
     }
     const goToEditMode=()=>{
       setEditMode(true)
     }
-    const onSubmit=(formData)=>{
+    const onSubmit=(formData:any)=>{
       props.saveProfile(formData);
       setEditMode(false);
     }
@@ -35,8 +55,11 @@ const Profile=(props)=>{
     )
   
 }
-
-const ProfileData=(props)=>{
+type ProfileDataPropsType={
+  selectMainPhohto:(e:any)=>void,
+  goToEditMode:()=>void
+}
+const ProfileData:React.FC<Props & ProfileDataPropsType>=(props)=>{
   
   
  

@@ -1,6 +1,9 @@
 import React from 'react';
 import post from './Post.module.css'
-const Post=(props)=>{
+type IProps={
+    message:string
+}
+const Post:React.FC<IProps>=(props)=>{
     return(
         <div className={post.red}>{props.message}</div>
     )

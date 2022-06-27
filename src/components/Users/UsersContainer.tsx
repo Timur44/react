@@ -20,6 +20,7 @@ type MapStateToPropsType={
     users:Array<any>
     isFetching:boolean
     disableBtn:Array<number>
+
 }
 
 type MapDispatchToPropsType={
@@ -42,13 +43,8 @@ type Props=MapStateToPropsType & MapDispatchToPropsType & OwnStateProps
 
 
  
-class UserAPIComponent extends React.Component<Props>{
-    constructor(props:any){
-        super(props);
-        
-    }
-
-    UNSAFE_componentDidMount(){
+class UsersContainer extends React.Component<Props>{
+    componentDidMount(){
         this.props.getUserThunkCreator(this.props.currentPage,this.props.pageSize)
         
     }
@@ -57,22 +53,23 @@ class UserAPIComponent extends React.Component<Props>{
     }
 
     render() {
-        return <>
-        {this.props.isFetching ? <Preloader></Preloader>: null}
-        <Users 
-            totalUsersCount={this.props.totalUsersCount} 
-            pageSize={this.props.pageSize}
-            onPageChanged={this.onPageChanged}
-            currentPage={this.props.currentPage}
-            users={this.props.users}
-            follow={this.props.follow}
-            unfollow={this.props.unfollow}
-            disable={this.props.disable}
-            disableBtn={this.props.disableBtn}
-            unfollowThunkCreator={this.props.unfollowThunkCreator}
-            followThunkCreator={this.props.followThunkCreator}
-            
-        ></Users></>
+        return<>
+            {this.props.isFetching ? <Preloader></Preloader>: null}
+            <Users 
+                totalUsersCount={this.props.totalUsersCount} 
+                pageSize={this.props.pageSize}
+                onPageChanged={this.onPageChanged}
+                currentPage={this.props.currentPage}
+                users={this.props.users}
+                follow={this.props.follow}
+                unfollow={this.props.unfollow}
+                disable={this.props.disable}
+                disableBtn={this.props.disableBtn}
+                unfollowThunkCreator={this.props.unfollowThunkCreator}
+                followThunkCreator={this.props.followThunkCreator}
+                
+            ></Users>
+        </>
     }
 }
 
@@ -89,8 +86,9 @@ let mapStatetoProps=(state:AppState):MapStateToPropsType=>{
 }
 
 
-
-
+type IProps={
+    store:any
+}
 
 export default compose(
     connect(mapStatetoProps,{
@@ -101,5 +99,4 @@ export default compose(
         getUserThunkCreator
     }),
     withAuthRedirect
-
-)(UserAPIComponent)
+)(UsersContainer) as React.ComponentType<IProps>;

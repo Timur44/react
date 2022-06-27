@@ -1,13 +1,15 @@
-import profileReducer, { addPostActionCreator,deletePost } from "./profile-reducer";
+import profileReducer, { actions, ProfileType }  from "./profile-reducer";
+
 
 test('new post should be added', () => {
     let state={
-        postMessage:[{id:0,message:"Hi"}],
+        postMessage:[{id:0,message:"Hi"}]as Array<ProfileType>,
         newPostText:'it-kamasutra',
-        profile:null,
-        status:""
+        profile:null as any,
+        status:"" as string,
+        photoURL:'' as string
     };
-    let action=addPostActionCreator("Tima");
+    let action=actions.addPostActionCreator("Tima");
     let newState=profileReducer(state,action)
     expect(newState.postMessage.length).toBe(2)
     expect(newState.postMessage[1].message).toBe("Tima")
@@ -17,9 +19,10 @@ let state={
     postMessage:[{id:0,message:"Hi"}],
     newPostText:'it-kamasutra',
     profile:null,
-    status:""
+    status:"",
+    photoURL:'' as string
 };
-let action=deletePost(0);
+let action=actions.deletePost(0);
 let newState=profileReducer(state,action)
 expect(newState.postMessage.length).toBe(0)
 });

@@ -1,7 +1,7 @@
-import { authAPI, LoginTypes, ResultCodeEnum, securityAPI, usersAPI } from "../api/api";
+import { authAPI, ResultCodeEnum, securityAPI, usersAPI } from "../api/api";
 import { stopSubmit } from "redux-form";
-import { type } from "os";
-import { AxiosResponse } from "axios";
+import { AppState, InfernActionsType } from "./redux-store";
+import { ThunkAction } from "redux-thunk";
 
 const SET_USER_DATA="SET_USER_DATA";
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
@@ -11,7 +11,7 @@ const GET_CAPTCHA_URL_SUCCSESS="GET_CAPTCHA_URL";
 
 
 let initialState={
-    userId:null as string|null,
+    userId:null as number|null,
     email:null as string|null,
     login:null as string|null,
     isFetching:false, 
@@ -20,7 +20,7 @@ let initialState={
 };
 export type InitialStateType=typeof initialState;
 
-const authReducer=(state=initialState,action:any):InitialStateType=>{
+const authReducer=(state=initialState,action:ActionTypes):InitialStateType=>{
     
     switch(action.type){
         case SET_USER_DATA:
@@ -48,63 +48,56 @@ const authReducer=(state=initialState,action:any):InitialStateType=>{
 }
 
 export default authReducer;
-type SetUserDataActionDataType={
-    userId:number|null,
-    email:string|null,
-    login:string|null,
-    isAuth:boolean
+
+
+
+
+
+export const actions={
+    getCaptcha:(captcha:string)=>{
+        return {
+            type:GET_CAPTCHA_URL_SUCCSESS,captcha
+        } as const},
+    setUserData:(userId:number|null,email:string|null,login:string|null,isAuth:boolean)=>{
+        return {
+            type:SET_USER_DATA,data:{userId,email,login,isAuth}
+        } as const},
+    changeLoader:(isFetching:boolean)=>{
+        return {
+            type:TOGGLE_IS_FETCHING,isFetching
+        }as const },
+    
+    stopSubmit:(form: string, errors?:any)=>{
+        return errors 
+    } 
+
+    
 }
-
-type SetUserDataActionType={
-    type:typeof SET_USER_DATA,data:SetUserDataActionDataType
-}
-
-export const setUserData=(userId:number|null,email:string|null,login:string|null,isAuth:boolean):SetUserDataActionType=>{
-    return {
-        type:SET_USER_DATA,data:{userId,email,login,isAuth}
-    }
-}
-
-type ChangeLoaderActionType={
-    type:typeof TOGGLE_IS_FETCHING,isFetching:boolean
-}
-
-export const changeLoader=(isFetching:boolean):ChangeLoaderActionType=>{
-    return {
-        type:TOGGLE_IS_FETCHING,isFetching
-    }
-}
-
-type GetCaptchaActionType={
-    type:typeof GET_CAPTCHA_URL_SUCCSESS,captcha:string
-}
-
-
-export const getCaptcha=(captcha:string):GetCaptchaActionType=>{
-    return {
-        type:GET_CAPTCHA_URL_SUCCSESS,captcha
-    }
-}
+export type ActionTypes=InfernActionsType<typeof actions>
 
 
 
-export const loginThunkCreator=()=>(dispatch: any)=>{
+
+
+
+
+export const loginThunkCreator=():ThunkAction<Promise<void>,AppState,unknown,ActionTypes>=>(dispatch)=>{
     
     return usersAPI.login().then((responce:any)=>{
-        dispatch(changeLoader(true))
+        dispatch(actions.changeLoader(true))
         if(responce.data.resultCode===0){
-            dispatch(changeLoader(false))
+            dispatch(actions.changeLoader(false))
             let {id,email,login}=responce.data.data;
-            dispatch(setUserData(id,email,login,true));
+            dispatch(actions.setUserData(id,email,login,true));
         }else{
             console.warn('you should log in');
-            dispatch(changeLoader(false))
+            dispatch(actions.changeLoader(false))
         }
     })
     
 }
-export const logIn=(email:string,password:string,rememberMe:boolean,captcha:string)=>{
-    return async (dispatch: any)=>{
+export const logIn=(email:string,password:string,rememberMe:boolean,captcha:string):ThunkAction<Promise<void>,AppState,unknown,ActionTypes>=>{
+    return async (dispatch)=>{
         
        let responce=await authAPI.login(email,password,rememberMe,captcha)
         if(responce.data.resultCode===ResultCodeEnum.Success){
@@ -114,29 +107,28 @@ export const logIn=(email:string,password:string,rememberMe:boolean,captcha:stri
                 dispatch(getCaptchaURL());
             }
             let message=responce.data.messages.length>0 ? responce.data.messages[0] : "Some Error" 
-            dispatch(stopSubmit('login',{_error:message}))
+            dispatch(stopSubmit('login',{errors:message}))
         }
         
     }
 }
 
 
-export const logOut=()=>{
-    return (dispatch: any)=>{
+export const logout=():ThunkAction<void,AppState,unknown,ActionTypes>=>{
+    return (dispatch)=>{
         authAPI.logOut().then((responce:any)=>{
             if(responce.data.resultCode===0){
-                dispatch(setUserData(null,null,null,false));
+                dispatch(actions.setUserData(null,null,null,false));
             }
         })
     }
 }
 
-export const getCaptchaURL=()=>{
-    return (dispatch :any)=>{
-        debugger;
+export const getCaptchaURL=():ThunkAction<void,AppState,unknown,ActionTypes>=>{
+    return (dispatch)=>{
         securityAPI.gettCaptcha().then((responce:any)=>{
             const captchaURL=responce.data.url;
-            dispatch(getCaptcha(captchaURL))
+            dispatch(actions.getCaptcha(captchaURL))
         })
     }
 }

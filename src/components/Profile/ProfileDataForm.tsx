@@ -1,8 +1,15 @@
 
-import { reduxForm,Field } from 'redux-form';
+import React from 'react';
+import { reduxForm,Field, InjectedFormProps } from 'redux-form';
 import { createField, Input, Textarea } from '../Preloader/FormsControls';
 import ProfileStatusWithHooks from './ProfileStatusWithHooks';
-const ProfileDataForm=(props)=>{
+import { FormDataType } from '../Login/LoginContainer';
+
+type IProps={
+  selectMainPhohto:(e:any)=>void
+}
+
+const ProfileDataForm:React.FC<InjectedFormProps<FormDataType,IProps>& IProps>=(props:any)=>{
   return <form onSubmit={props.handleSubmit}>
 
     <img src={props.photo}></img>
@@ -16,5 +23,5 @@ const ProfileDataForm=(props)=>{
     <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatusThunkCreator} ></ProfileStatusWithHooks>
   </form> 
   }
-const ProfileDataReduxForm=reduxForm({form:'edit-profile'})(ProfileDataForm)
+const ProfileDataReduxForm=reduxForm<FormDataType,IProps>({form:'edit-profile'})(ProfileDataForm)
 export default ProfileDataReduxForm

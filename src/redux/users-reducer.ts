@@ -46,6 +46,7 @@ const usersReducer=(state=initialState,action:ActionTypes):InitialStateType=>{
                 })
             };
         case SET_USERS:
+            
             return{
                 ...state,
                users:[...action.users]
@@ -201,6 +202,7 @@ export const getUserThunkCreator=(currentPage:number,pageSize:number):ThunkActio
         
         dispatch(actions.changeLoader(true));
         usersAPI.getUsers(currentPage,pageSize).then((data:any)=>{
+            
             dispatch(actions.changeLoader(false));      
             dispatch(actions.setCurrentPage(currentPage))
             dispatch(actions.setUsers(data.items));
@@ -210,7 +212,7 @@ export const getUserThunkCreator=(currentPage:number,pageSize:number):ThunkActio
 }
 
 export const unfollowThunkCreator=(id:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
-    return (dispatch:any)=>{
+    return (dispatch)=>{
         dispatch(actions.disableBtn(true,id));
         usersAPI.unfollowUser(id).then((responce:any)=>{
             
@@ -224,7 +226,7 @@ export const unfollowThunkCreator=(id:number):ThunkAction<void,AppState,unknown,
 }
 
 export const followThunkCreator=(id:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
-    return (dispatch:any)=>{
+    return (dispatch)=>{
         dispatch(actions.disableBtn(true,id));
         usersAPI.followUser(id).then((responce:any)=>{
             

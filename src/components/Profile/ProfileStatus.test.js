@@ -5,31 +5,31 @@ import ProfileStatus from "./ProfileStatus";
 
 describe("ProfileStatus component", () => {
     test("status from props must be in the state", () => {
-      const component = create(<ProfileStatus status="Timur" />);
+      const component = create(<ProfileStatus updateStatus={()=>{}} status="Timur" />);
       const instance = component.getInstance();
       expect(instance.state.status).toBe("Timur");
     });
     test("span innerText correct showed", () => {
-        const component = create(<ProfileStatus status="Timur" />);
+        const component = create(<ProfileStatus updateStatus={()=>{}} status="Timur" />);
         const root = component.root;
         const span=root.findByType('span');
         expect(span.children[0]).toBe('Timur');
       });
       test("span  correct showed", () => {
-        const component = create(<ProfileStatus status="Timur" />);
+        const component = create(<ProfileStatus updateStatus={()=>{}} status="Timur" />);
         const root = component.root;
         const span=root.findByType('span');
         expect(span).not.toBeNull();
       });
       test("inputisn't displayed", () => {
-        const component = create(<ProfileStatus status="Timur" />);
+        const component = create(<ProfileStatus updateStatus={()=>{}} status="Timur" />);
         const root = component.root;
         expect(()=>{
             const input=root.findByType('input');
         }).toThrow();
       });
       test("editMode changed", () => {
-        const component = create(<ProfileStatus status="Timur" />);
+        const component = create(<ProfileStatus updateStatus={()=>{}} status="Timur" />);
         const root = component.root;
         
         const span=root.findByType('span');

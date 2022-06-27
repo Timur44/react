@@ -1,25 +1,37 @@
-import React from 'react';
+import React, { ClassAttributes } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import UsersContainer from './components/Users/UsersContainer';
-import { connect, Provider } from 'react-redux';
+import { connect, Matching, Provider } from 'react-redux';
 import { compose } from 'redux';
 import Preloader from './components/Preloader/Preloader'
 import { setInitializedApp } from './redux/app-reducer';
-import store from './redux/redux-store.ts';
+
 import HeaderContainer from './components/Header/HeaderContainer';
 import LoginContainer from './components/Login/LoginContainer';
 import Nav from './components/Nav/Nav';
 import { Helmet,HelmetProvider } from 'react-helmet-async';
+import { ThunkAction } from 'redux-thunk';
+import store, { AppState } from './redux/redux-store';
+import { ActionTypes } from './redux/users-reducer';
+import UsersContainer from './components/Users/UsersContainer';
+
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+type MapStateToProps=ReturnType<typeof mapStateToProps>
+type MapDispatchToProps={
+  setInitializedApp:()=>(dispatch:any)=>ThunkAction<void,AppState,unknown,ActionTypes>,
+  
+  
+}
+type IProps={
+  store:any
+}
 
-
-
-class App extends React.Component{
+class App extends React.Component< MapStateToProps & MapDispatchToProps & IProps >{
   componentDidMount(){
  
     this.props.setInitializedApp();
+    
   }
   render(){
     if(!this.props.initialized){
@@ -43,10 +55,7 @@ class App extends React.Component{
           }
           }/>
             <Route exact path='/users' render={()=>
-            <UsersContainer
-              store={this.props.store} 
-              title='Best'
-            />
+             <UsersContainer store={this.props.store}/>
           }/>
             <Route exact path='/login' render={()=>
             <LoginContainer
@@ -60,13 +69,13 @@ class App extends React.Component{
   
     
 }
-const mapStateToProps=(state)=>({
+const mapStateToProps=(state:AppState)=>({
   initialized:state.appReducer.initialized
 })
-let AppContainer=compose(
+let AppContainer=compose<React.ComponentType>(
   connect(mapStateToProps,{setInitializedApp}))(App);
 
-const SamurayJSApp=(props)=>{
+const SamurayJSApp: React.FC =(props:any)=>{
   return(
     <HelmetProvider>
        <Provider store={store}>

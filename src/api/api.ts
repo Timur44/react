@@ -1,6 +1,21 @@
 import axios, { AxiosResponse } from "axios"
 
-
+export enum ResultCodeEnum{
+    Success=0,
+    Error=1,
+    CaptchaisRequired=10
+}
+type MeTypes={
+    data:{id:number,email:string,login:string},
+    resultCode:number,
+    messages:Array<string>
+}
+export type LoginTypes={
+    data:{userId:number},
+    resultCode:number,
+    messages:Array<string>,
+    captcha:string
+}
 
 const instance=axios.create({
     baseURL:'https://social-network.samuraijs.com/api/1.0/',
@@ -10,10 +25,19 @@ const instance=axios.create({
     }
 });
 
-
+type GetItemsType={
+    items:Array<any>,
+    totalCount:number,
+    error:string|null
+}
+type ResponceType<D={},RC=ResultCodeEnum>={
+    messages:Array<string>,
+    data:D,
+    resultCode:RC
+}
 export const usersAPI={
     getUsers(currentPage:number,pageSize:number){
-        return instance.get(`users?page=${currentPage}&count${pageSize}`,
+        return instance.get<GetItemsType>(`users?page=${currentPage}&count${pageSize}`,
         )
         .then(responce=>{ return responce.data});
     },
@@ -24,7 +48,7 @@ export const usersAPI={
     
     },
     followUser(id:number){
-        return  instance.post(`/follow/${id}`,{})
+        return  instance.post<ResponceType>(`/follow/${id}`,{}).then(res=>res.data)
     
     },
     unfollowUser(id:number){
@@ -64,22 +88,7 @@ export const profileAPI={
     },
 }
 
-export enum ResultCodeEnum{
-    Success=0,
-    Error=1,
-    CaptchaisRequired=10
-}
-type MeTypes={
-    data:{id:number,email:string,login:string},
-    resultCode:number,
-    messages:Array<string>
-}
-export type LoginTypes={
-    data:{userId:number},
-    resultCode:number,
-    messages:Array<string>,
-    captcha:string
-}
+
 
 
 export const authAPI={

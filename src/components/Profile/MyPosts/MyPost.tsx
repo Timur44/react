@@ -4,8 +4,9 @@ import mypost from './MyPost.module.css';
 import { Field, reduxForm } from 'redux-form';
 import {maxLengthCreator, requiredField } from '../../../utils/validations/valid';
 import { Textarea } from '../../Preloader/FormsControls';
+import { InitialStateType, ProfileType } from '../../../redux/profile-reducer';
 const maxLength10=maxLengthCreator(10)
-const addNewPost=(props)=>{
+const addNewPost=(props:any)=>{
     return <form onSubmit={props.handleSubmit}>
         <Field component={Textarea} name="addPostText" className={mypost.block} placeholder="write somethimg down" validate={[requiredField,maxLength10]} text={`input`}></Field>
         <button>Create post</button>
@@ -15,12 +16,21 @@ const addNewPost=(props)=>{
 const AddNewPostRedux=reduxForm({form:'profilePost'})(addNewPost)
 
 
-const MyPost=React.memo((props)=>{
+
+
+
+export type IProps={
+    addPostActionCreator: (newPostText:string) =>void
+    profilePage:InitialStateType
+}
+
+
+
+const MyPost:React.FC<IProps>=React.memo((props)=>{
   
-    
-    console.log('awadwd')
-    let addPostText=(value)=>{
-        props.addPost(value.addPostText);
+
+    let addPostText=(value:any)=>{
+        props.addPostActionCreator(value.addPostText);
         value.addPostText=''
     }
 
