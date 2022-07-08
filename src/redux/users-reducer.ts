@@ -10,6 +10,7 @@ const SET_CURRENT_PAGE="SET_CURRENT_PAGE"
 const SET_TOTAL_USERS_COUNT="SET_TOTAL_USERS_COUNT"
 const TOGGLE_IS_FETCHING="TOGGLE_IS_FETCHING"
 const DISABLE_BTN="DISABLE_BTN"
+const SET_FILTER="SET_FILTER"
 
 let initialState={
    users:[] as Array<any>,
@@ -17,10 +18,15 @@ let initialState={
    totalUsersCount:0,
    currentPage:1,
    isFetching:true,
-   disableBtn:[]as Array<number>
+   disableBtn:[]as Array<number>,
+   filter:{
+    term:'',
+    friend:null as null|boolean
+   }
 
 };
 type InitialStateType=typeof initialState
+export type FilterStateType=typeof initialState.filter;
 const usersReducer=(state=initialState,action:ActionTypes):InitialStateType=>{
     
     switch(action.type){
@@ -65,6 +71,11 @@ const usersReducer=(state=initialState,action:ActionTypes):InitialStateType=>{
             return{
                 ...state,
                 isFetching:action.isFetching
+            };
+        case SET_FILTER:
+            return{
+                ...state,
+                filter:action.payload
             };
         case DISABLE_BTN:
         
@@ -153,6 +164,11 @@ setCurrentPage:(currentPage:number)=>{
     return {
         type:DISABLE_BTN,disable,id
     } as const
+},
+setfilter:(filter:FilterStateType)=>{
+    return {
+        type:SET_FILTER,payload:filter
+    } as const
 }
 
 }
@@ -197,13 +213,14 @@ export type ActionTypes=InfernActionsType<typeof actions>
 
 
 
-export const getUserThunkCreator=(currentPage:number,pageSize:number):ThunkAction<void,AppState,unknown,ActionTypes>=>{
+export const getUserThunkCreator=(currentPage:number,pageSize:number,filter:FilterStateType):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch,getState)=>{
-        
         dispatch(actions.changeLoader(true));
-        usersAPI.getUsers(currentPage,pageSize).then((data:any)=>{
-            
-            dispatch(actions.changeLoader(false));      
+        debugger
+        usersAPI.getUsers(currentPage,pageSize,filter.term,filter.friend).then((data:any)=>{
+            debugger
+            dispatch(actions.changeLoader(false));     
+            dispatch(actions.setfilter(filter)) 
             dispatch(actions.setCurrentPage(currentPage))
             dispatch(actions.setUsers(data.items));
             dispatch(actions.setTotalUsersCount(data.totalCount));

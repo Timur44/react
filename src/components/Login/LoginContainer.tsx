@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Field, InjectedFormProps, reduxForm } from 'redux-form';
 import { maxLengthCreator, requiredField } from '../../utils/validations/valid';
 import { createField, Input } from '../Preloader/FormsControls';
-import { logIn,logOut } from '../../redux/auth-reducer';
+import { logIn,logout } from '../../redux/auth-reducer';
 import { Redirect } from 'react-router-dom';
 import styles from './../Preloader/FormsControls.module.css'
 import { AppState } from '../../redux/redux-store';

@@ -23,7 +23,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, /* preloadedState, */ composeEnhancers(applyMiddleware(thunkMiddleware)))
 
 
-export type PropertiesTypes<T>=T extends {[key:string] : infer U} ? U : never
+export type PropertiesTypes<T> = T extends {[key:string] : infer U} ? U : never
 
 export type InfernActionsType<T extends {[key:string]  : (...arg:any[])=>any}>=ReturnType<PropertiesTypes<T>>
 //@ts-ignore

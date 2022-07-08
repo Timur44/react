@@ -7,8 +7,9 @@ import { withRouter } from 'react-router';
 import { compose } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { AppState } from '../../redux/redux-store';
-import { ActionTypes } from '../../redux/users-reducer';
+import { ActionTypes } from '../../redux/profile-reducer';
 import updatePhoto from '../../redux/profile-reducer';
+
 
 type MapStateToPropsType={
   profile:any,
@@ -37,8 +38,10 @@ type MapDispatchToPropsType={
 
 class ProfileContainer extends React.Component<MapStateToPropsType & MapDispatchToPropsType>{
   refresh(){
+    debugger
     let userId=this.props.match.params.userId;
     if(userId!==this.props.myUserId){
+     
       this.props.updatePhoto('https://sun9-20.userapi.com/impg/6iSbu-qbkquC1-UzQ-RiLVbR7OYKcN8FQjGa-g/PW5QDnxrMjs.jpg?size=960x1280&quality=96&sign=1d561119e23872d9bc39386e5d3cbffd&type=album')
     }
     if(!userId){
@@ -48,12 +51,14 @@ class ProfileContainer extends React.Component<MapStateToPropsType & MapDispatch
     else{
       this.props.updatePhoto( "http://avotarov.ru/picture/avatar-100/kartinki/924.jpg")
     }
+    debugger
    
     this.props.setUserThunkCreator(userId);
     this.props.getStatusThunkCreator(userId);
   }
   
-  UNSAFE_componentDidMount(){
+  componentDidMount(){
+    debugger
     this.refresh()
   }
   componentDidUpdate(prevProps:any) {

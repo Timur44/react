@@ -36,8 +36,8 @@ type ResponceType<D={},RC=ResultCodeEnum>={
     resultCode:RC
 }
 export const usersAPI={
-    getUsers(currentPage:number,pageSize:number){
-        return instance.get<GetItemsType>(`users?page=${currentPage}&count${pageSize}`,
+    getUsers(currentPage:number,pageSize:number,term:string,friend:boolean | null){
+        return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend===null ? '' : `&friend=${friend}`),
         )
         .then(responce=>{ return responce.data});
     },

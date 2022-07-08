@@ -50,16 +50,16 @@ type DialogsType={
         messages:Array<DialogType>,
         newMessageBody:string|null
     },
-    sendMessageClick:(newMessageBody:string)=>void
+    sendNewMessageActionCreator:(newMessageBody:string)=>void
 }
 
 const Dialogs:React.FC<DialogsType>=(props)=>{
-    let dialogsElem=props.dialogsPage.dialogs.map(item=><DialogsItem name={item.name} id={item.id}/>);
+    let dialogsElem=props.dialogsPage.dialogs.map(item=><DialogsItem  name={item.name} id={item.id}/>);
     let messageElem=props.dialogsPage.messages.map(item=><Message name={item.name} id={item.id}/>);
 
     let addMessage=(value:any)=>{
 
-        props.sendMessageClick(value.newMessageBody);
+        props.sendNewMessageActionCreator(value.newMessageBody);
         value.newMessageBody='';
     }
 

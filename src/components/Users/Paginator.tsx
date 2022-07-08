@@ -1,13 +1,15 @@
 
 import React, { useState } from 'react';
+import { FilterStateType } from '../../redux/users-reducer';
 import u from './Users.module.css'
 
 type Props={
     totalUsersCount:number
     pageSize:number
     currentPage:number
-    onPageChanged:(page:number)=>void
+    onPageChanged:(page:number,filter:FilterStateType)=>void
     portionSize?:number
+    filter:FilterStateType
 }
 
 let Paginator:React.FC<Props>=(props)=>{
@@ -29,7 +31,7 @@ let Paginator:React.FC<Props>=(props)=>{
             {pages
             .filter(p=>p>=leftBorder && p<=rightBorder)
             .map(page=>{
-                return <span className={props.currentPage===page ? u.pages: ""} onClick={()=>{props.onPageChanged(page)}} >{page}</span>
+                return <span className={props.currentPage===page ? u.pages: ""} onClick={()=>{props.onPageChanged(page,props.filter)}} >{page}</span>
             })}
         </div>
         {portionCount>portionNumber &&

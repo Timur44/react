@@ -27,7 +27,7 @@ export type Props={
 
 }
 const Profile:React.FC<Props>=(props)=>{
-
+    debugger
     let [editMode,setEditMode]=useState(false)
 
     if(!props.profile){

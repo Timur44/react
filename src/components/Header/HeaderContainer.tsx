@@ -5,8 +5,7 @@ import Header from './Header';
 import Preloader from '../Preloader/Preloader';
 import {logout} from '../../redux/auth-reducer'
 import { AppState } from '../../redux/redux-store';
-import { ThunkAction } from 'redux-thunk';
-import { ActionTypes } from '../../redux/auth-reducer';
+
 
 
 export type MapStateToPropsType={
