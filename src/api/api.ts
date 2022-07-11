@@ -30,11 +30,7 @@ type GetItemsType={
     totalCount:number,
     error:string|null
 }
-type ResponceType<D={},RC=ResultCodeEnum>={
-    messages:Array<string>,
-    data:D,
-    resultCode:RC
-}
+
 export const usersAPI={
     getUsers(currentPage:number,pageSize:number,term:string,friend:boolean | null){
         return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend===null ? '' : `&friend=${friend}`),
@@ -48,7 +44,7 @@ export const usersAPI={
     
     },
     followUser(id:number){
-        return  instance.post<ResponceType>(`/follow/${id}`,{}).then(res=>res.data)
+        return  instance.post(`/follow/${id}`,{}).then(res=>res.data)
     
     },
     unfollowUser(id:number){

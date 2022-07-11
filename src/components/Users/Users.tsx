@@ -1,33 +1,46 @@
 
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import  UnfollowActionType, { FilterStateType }  from '../../redux/users-reducer';
+import  { FilterStateType, followThunkCreator, getUserThunkCreator,  unfollowThunkCreator }  from '../../redux/users-reducer';
+import { getCurrentPage, getDisabledBtn, getFilter, getPageSize, getTotalUsersCount, getUsers } from '../../redux/users-selectors';
 import Paginator from './Paginator';
 import u from './Users.module.css'
 type Props={
-    filter:FilterStateType
-    totalUsersCount:number
-    pageSize:number
-    currentPage:number
-    onPageChanged:(page:number,filter:FilterStateType)=>void
-    portionSize?:number
-    unfollowThunkCreator:(id:number)=>void
-    followThunkCreator:(id:number)=>void
-    disable:Array<any>
-    users:Array<any>
-    unfollow:(userId:number)=>void
-    follow:(userId:number)=>void
-    disableBtn:Array<number>
-    onFilterChanged:(filter:FilterStateType)=>void
-   
+    portionSize?:number 
 }
 let Users:React.FC<Props>=(props)=>{
-    return <div>
 
-            <UsersSearchForm onFilterChanged={props.onFilterChanged}></UsersSearchForm>
-            <Paginator currentPage={props.currentPage} onPageChanged={props.onPageChanged} totalUsersCount={props.totalUsersCount} pageSize={props.pageSize} filter={props.filter}></Paginator>
-            {props.users.map(users=><div className={u.flex} key={users.id}>
+
+    const disable=useSelector(getDisabledBtn)
+    const users=useSelector(getUsers)
+    const filter=useSelector(getFilter)
+    const totalUsersCount=useSelector(getTotalUsersCount)
+    const pageSize=useSelector(getPageSize)
+    const currentPage=useSelector(getCurrentPage)
+    
+    const dispatch=useDispatch()
+
+    const unfollowThunk=(id:number)=>{dispatch(unfollowThunkCreator(id))}
+    const followThunk=(id:number)=>{dispatch(followThunkCreator(id))}
+
+    useEffect(()=>{dispatch(getUserThunkCreator(currentPage,pageSize,filter))},[])
+
+
+    const  onPageChanged=(pageNumber:number,filter:FilterStateType)=>{
+        dispatch(getUserThunkCreator(pageNumber,pageSize,filter))
+    }
+
+
+    const onFilterChanged=(filter:FilterStateType)=>{
+        dispatch(getUserThunkCreator(currentPage,pageSize,filter))
+    }
+
+    return <div>
+            <UsersSearchForm onFilterChanged={onFilterChanged}></UsersSearchForm>
+            <Paginator currentPage={currentPage} onPageChanged={onPageChanged} totalUsersCount={totalUsersCount} pageSize={pageSize} filter={filter}></Paginator>
+            {users.map(users=><div className={u.flex} key={users.id}>
                 <span >
                     <div>
                         <NavLink to={'/profile/'+ users.id}>
@@ -37,14 +50,14 @@ let Users:React.FC<Props>=(props)=>{
                     </div>
                     <div>
                         {users.followed 
-                        ? <button disabled={props.disable.some(id=>id===users.id)} onClick={
+                        ? <button disabled={disable.some(id=>id===users.id)} onClick={
                             ()=>{
-                               props.unfollowThunkCreator(users.id);
+                               unfollowThunk(users.id);
                             }
                         }>Unfollow</button> 
-                        : <button disabled={props.disable.some(id=>id===users.id)} onClick={
+                        : <button disabled={disable.some(id=>id===users.id)} onClick={
                             ()=>{
-                                props.followThunkCreator(users.id);
+                                followThunk(users.id);
                             }
                         }>Follow</button>}
                         

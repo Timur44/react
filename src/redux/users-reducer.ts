@@ -246,8 +246,9 @@ export const followThunkCreator=(id:number):ThunkAction<void,AppState,unknown,Ac
     return (dispatch)=>{
         dispatch(actions.disableBtn(true,id));
         usersAPI.followUser(id).then((responce:any)=>{
-            
-            if(responce.data.resultCode===0){//подписка произошла
+            debugger
+            if(responce.resultCode===0){//подписка произошла
+                debugger
                 dispatch(actions.follow(id));
 
             }

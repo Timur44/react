@@ -1,19 +1,19 @@
-import React, { ClassAttributes } from 'react';
+import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import { connect, Matching, Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { compose } from 'redux';
 import Preloader from './components/Preloader/Preloader'
 import { setInitializedApp } from './redux/app-reducer';
 
 import HeaderContainer from './components/Header/HeaderContainer';
-import LoginContainer from './components/Login/LoginContainer';
+import {LoginContainer} from './components/Login/LoginContainer';
 import Nav from './components/Nav/Nav';
-import { Helmet,HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 import { ThunkAction } from 'redux-thunk';
 import store, { AppState } from './redux/redux-store';
 import { ActionTypes } from './redux/users-reducer';
-import UsersContainer from './components/Users/UsersContainer';
+import { UsersPage } from './components/Users/UsersContainer';
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
@@ -55,12 +55,10 @@ class App extends React.Component< MapStateToProps & MapDispatchToProps & IProps
           }
           }/>
             <Route exact path='/users' render={()=>
-             <UsersContainer store={this.props.store}/>
+             <UsersPage/>
           }/>
             <Route exact path='/login' render={()=>
-            <LoginContainer
-              store={this.props.store} 
-            />
+            <LoginContainer/>
           }/>
         </div>
       </BrowserRouter>

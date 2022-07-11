@@ -22,3 +22,6 @@ export const getIsFetching=(state:AppState)=>{
 export const getDisabledBtn=(state:AppState)=>{
     return state.usersReducer.disableBtn
 }
+export const getFilter=(state:AppState)=>{
+    return state.usersReducer.filter
+}
