@@ -2,11 +2,12 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import  { FilterStateType, followThunkCreator, getUserThunkCreator,  unfollowThunkCreator }  from '../../redux/users-reducer';
 import { getCurrentPage, getDisabledBtn, getFilter, getPageSize, getTotalUsersCount, getUsers } from '../../redux/users-selectors';
 import Paginator from './Paginator';
 import u from './Users.module.css'
+import * as queryString from 'querystring'
 type Props={
     portionSize?:number 
 }
@@ -24,10 +25,36 @@ let Users:React.FC<Props>=(props)=>{
 
     const unfollowThunk=(id:number)=>{dispatch(unfollowThunkCreator(id))}
     const followThunk=(id:number)=>{dispatch(followThunkCreator(id))}
+    const history=useHistory()
+   
+    useEffect(()=>{
+        const parsed=queryString.parse(history.location.search.substr(1))
+        let actualPage=currentPage;
+        let actualFilter=filter;
 
-    useEffect(()=>{dispatch(getUserThunkCreator(currentPage,pageSize,filter))},[])
+        if(parsed.page) actualPage=Number(parsed.page)
+        if(parsed.term) actualFilter={...actualFilter,term:parsed.term as string}
+        if(parsed.friend) actualFilter={...actualFilter,friend:parsed.friend==="null" ? null : parsed.friend==="true" ? true : false }
 
 
+        dispatch(getUserThunkCreator(actualPage,pageSize,actualFilter))
+       
+        
+        debugger
+    },[])
+    useEffect(()=>{
+        const query:any={}
+        if(currentPage!==1) query.page=currentPage
+        if(filter.term) query.term=filter.term
+        if(filter.friend!==null) query.friend=String(filter.friend)
+        history.push({
+            pathname:'/users',
+            search:queryString.stringify(query)
+        })
+        debugger
+    },[currentPage,filter])
+
+        
     const  onPageChanged=(pageNumber:number,filter:FilterStateType)=>{
         dispatch(getUserThunkCreator(pageNumber,pageSize,filter))
     }
@@ -90,9 +117,11 @@ type UsersSearchFormType={
     onFilterChanged:(filter:FilterStateType)=>void
 }
 export const UsersSearchForm:React.FC<UsersSearchFormType>=React.memo((props)=>{
+    const filter=useSelector(getFilter)
     return <div>
         <Formik
-            initialValues={{term:'',friend:null}}
+            enableReinitialize={true}
+            initialValues={{term:filter.term,friend:filter.friend}}
             validate={values => {
                 const errors = {};
                 return errors;
