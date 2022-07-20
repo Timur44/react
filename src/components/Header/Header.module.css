@@ -1,9 +1,3 @@
-.header{
-    grid-area: h;
-    background-color: orange;
-    
-    
-}
-.loginBlock{
-    float: right;
+.font_color{
+    color:#fff;
 }

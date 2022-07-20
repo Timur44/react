@@ -29,6 +29,7 @@ let Users:React.FC<Props>=(props)=>{
    
     useEffect(()=>{
         const parsed=queryString.parse(history.location.search.substr(1))
+        debugger
         let actualPage=currentPage;
         let actualFilter=filter;
 
@@ -51,7 +52,6 @@ let Users:React.FC<Props>=(props)=>{
             pathname:'/users',
             search:queryString.stringify(query)
         })
-        debugger
     },[currentPage,filter])
 
         

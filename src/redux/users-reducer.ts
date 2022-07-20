@@ -216,7 +216,6 @@ export type ActionTypes=InfernActionsType<typeof actions>
 export const getUserThunkCreator=(currentPage:number,pageSize:number,filter:FilterStateType):ThunkAction<void,AppState,unknown,ActionTypes>=>{
     return (dispatch,getState)=>{
         dispatch(actions.changeLoader(true));
-        debugger
         usersAPI.getUsers(currentPage,pageSize,filter.term,filter.friend).then((data:any)=>{
             debugger
             dispatch(actions.changeLoader(false));     
